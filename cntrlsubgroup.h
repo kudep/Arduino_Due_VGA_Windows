@@ -27,7 +27,7 @@ private:
 	void add_space(int n);
 	void itoa(int n, char s[]);
 	void reverse(char s[]);
-	static const int string_length = 20;
+	static const int string_length = 30;
 	IntrfSubGroup ISG;
 	Metric_Parameters metric;
 	IntrfSubGroup_State state;

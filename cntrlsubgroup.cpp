@@ -21,8 +21,13 @@ bool CntrlSubGroup::strcpy_center_text(const char*_text)
 {
 	if (metric.height*metric.width > strlen(_text))
 	{
-		if (metric.height == 1)add_space((metric.width-strlen(_text))/2);
-		strcat(text, _text);
+		if (metric.height == 1)
+		{
+			add_space((metric.width - strlen(_text)) / 2);
+			strcat(text, _text);
+		}
+		else
+			strcpy(text, _text);
 		modification = true;
 		return true;
 	}
@@ -35,8 +40,13 @@ bool CntrlSubGroup::strcpy_center_text(int _ntext)
 	itoa(_ntext, _text);
 	if (metric.height*metric.width > strlen(_text) + 1)
 	{
-		if (metric.height == 1)add_space((metric.width - strlen(_text)) / 2);
-		strcat(text, _text);
+		if (metric.height == 1)
+		{
+			add_space((metric.width - strlen(_text)) / 2);
+			strcat(text, _text);
+		}
+		else
+			strcpy(text, _text);
 		modification = true;
 		return true;
 	}

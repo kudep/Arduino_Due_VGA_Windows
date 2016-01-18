@@ -6,6 +6,7 @@
 
 Win1* win1;
 Win2* win2;
+Win_help* win_help;
 int count = 0;
 void setup()
 {
@@ -13,6 +14,11 @@ void setup()
 	VGA.begin(320, 240, VGA_COLOUR);
 	win1 = new Win1;
 	win2 = new Win2;
+	win_help = new Win_help;
+	(*win2).refresh();
+	(*win2).refresh();
+	(*win_help).refresh();
+	//(*win_help).refresh();
 	
 }
 void help_function_1()
@@ -48,31 +54,33 @@ void help_function_2()
 	Serial.println("Good start 2");
 	(*win2).refresh();
 	count++;
-	(*win2).data_time1.state_switch();
-	(*win2).set_time(count);
-	(*win2).name1.strcpy_center_text("Denis");
-	(*win2).update();
-	delay(500);
-	(*win2).name1.strcpy_center_text("Deni");
-	(*win2).update();
-	delay(500);
-	(*win2).name1.strcpy_center_text("Den");
-	(*win2).update();
-	delay(500);
-	(*win2).name1.strcpy_center_text("De");
-	(*win2).update();
-	delay(500);
-	(*win2).name1.strcpy_center_text("D");
-	(*win2).update();
-	delay(500);
-	(*win2).name1.strcpy_center_text("");
-	(*win2).update();
-	delay(500);
+	//(*win2).data_time1.state_switch();
+	//(*win2).set_time(count);
+	//(*win2).name1.strcpy_center_text("Denis");
+	//(*win2).update();
+	//delay(500);
+	//(*win2).name1.strcpy_center_text("Deni");
+	//(*win2).update();
+	//delay(500);
+	//(*win2).name1.strcpy_center_text("Den");
+	//(*win2).update();
+	//delay(500);
+	//(*win2).name1.strcpy_center_text("De");
+	//(*win2).update();
+	//delay(500);
+	//(*win2).name1.strcpy_center_text("D");
+	//(*win2).update();
+	//delay(500);
+	//(*win2).name1.strcpy_center_text("");
+	//(*win2).update();
+	//delay(500);
+	delay(2500);
 	Serial.println("Good end 2");
 }
 void loop()
 {
-	help_function_1();
-	help_function_2();
+	//(*win_help).refresh();
+	//help_function_1();
+	//help_function_2();
 	
 }
