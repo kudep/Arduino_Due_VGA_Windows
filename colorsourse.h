@@ -6,7 +6,7 @@
 //0b11100000 = 224 = red      0b10010010 = 146 = grey
 //0b00011100 = 28 = green	    0b10000011 = 227 = purple
 //0b00000011 = 3 = blue       0b00000000 = 0 = black
-enum subgroup_function { information, text, button, standard };
+enum subgroup_function { information, text, button, interactive, standard };
 enum states {disable,enable};
 
 typedef uint8_t VGA_INTF_Color;
@@ -28,9 +28,10 @@ const VGA_INTF_Color standard_subgroup_colors[6] = { VGA_INTF_Colors::black, VGA
 const VGA_INTF_Color standard_subgroup_group_outline_colors[2] = { VGA_INTF_Colors::black, VGA_INTF_Colors::blue };
 
 
-const VGA_INTF_Color standard_subgroup_information_colors[6] = { VGA_INTF_Colors::grey, VGA_INTF_Colors::green, VGA_INTF_Colors::blue, VGA_INTF_Colors::red, VGA_INTF_Colors::green, VGA_INTF_Colors::blue };
+const VGA_INTF_Color standard_subgroup_information_colors[6] = { VGA_INTF_Colors::black, VGA_INTF_Colors::black, VGA_INTF_Colors::blue, VGA_INTF_Colors::black, VGA_INTF_Colors::black, VGA_INTF_Colors::blue };
 const VGA_INTF_Color standard_subgroup_text_colors[6] = { VGA_INTF_Colors::black, VGA_INTF_Colors::black, VGA_INTF_Colors::white, VGA_INTF_Colors::red, VGA_INTF_Colors::black, VGA_INTF_Colors::white };
 const VGA_INTF_Color standard_subgroup_button_colors[6] = { VGA_INTF_Colors::black, VGA_INTF_Colors::white, VGA_INTF_Colors::blue, VGA_INTF_Colors::red, VGA_INTF_Colors::white, VGA_INTF_Colors::blue };
+const VGA_INTF_Color standard_subgroup_interactive_colors[6] = { VGA_INTF_Colors::grey, VGA_INTF_Colors::black, VGA_INTF_Colors::white, VGA_INTF_Colors::red, VGA_INTF_Colors::black, VGA_INTF_Colors::white };
 
 struct Color_Parameters
 {
@@ -64,6 +65,10 @@ struct Color_Style
 		case button:
 			disable = Color_Parameters(standard_subgroup_button_colors);
 			enable = Color_Parameters(standard_subgroup_button_colors + 3);
+			break;
+		case interactive:
+			disable = Color_Parameters(standard_subgroup_interactive_colors);
+			enable = Color_Parameters(standard_subgroup_interactive_colors + 3);
 			break;
 		default:
 			disable = Color_Parameters(standard_subgroup_colors);

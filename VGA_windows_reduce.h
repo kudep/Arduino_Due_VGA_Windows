@@ -5,7 +5,58 @@
 #include"cntrlsubgroup.h"
 
 
-class Win_help
+class Win
+{
+public:
+	Win();
+	~Win();
+
+protected:
+	void itoa(int n, char s[])
+	{
+		int i, sign;
+
+		if ((sign = n) < 0)  /* записываем знак */
+			n = -n;          /* делаем n положительным числом */
+		i = 0;
+		do {       /* генерируем цифры в обратном порядке */
+			s[i++] = n % 10 + '0';   /* берем следующую цифру */
+		} while ((n /= 10) > 0);     /* удаляем */
+		if (sign < 0)
+			s[i++] = '-';
+		s[i] = '\0';
+		reverse(s);
+	}
+	void reverse(char s[])
+	{
+		int i, j;
+		char c;
+
+		for (i = 0, j = strlen(s) - 1; i<j; i++, j--) {
+			c = s[i];
+			s[i] = s[j];
+			s[j] = c;
+		}
+	}
+	void get_time(int count)
+	{
+		s[0] = 0;
+		char hh[3];
+		char mm[3];
+		int var1 = (count / 60) % 24;
+		int var2 = count % 60;
+		itoa(var1, hh);
+		itoa(var2, mm);
+		strcat(s, hh);
+		strcat(s, ":");
+		strcat(s, mm);
+	}
+
+	char flag[2];
+	char s[7];
+};
+
+class Win_help:Win
 {
 public:
 	Win_help();
@@ -34,50 +85,10 @@ public:
 	CntrlSubGroup title;
 	CntrlSubGroup text;
 private:
-	void itoa(int n, char s[])
-	{
-		int i, sign;
-
-		if ((sign = n) < 0)  /* записываем знак */
-			n = -n;          /* делаем n положительным числом */
-		i = 0;
-		do {       /* генерируем цифры в обратном порядке */
-			s[i++] = n % 10 + '0';   /* берем следующую цифру */
-		} while ((n /= 10) > 0);     /* удаляем */
-		if (sign < 0)
-			s[i++] = '-';
-		s[i] = '\0';
-		reverse(s);
-	}
-	void reverse(char s[])
-	{
-		int i, j;
-		char c;
-
-		for (i = 0, j = strlen(s) - 1; i<j; i++, j--) {
-			c = s[i];
-			s[i] = s[j];
-			s[j] = c;
-		}
-	}
-	void get_time(int count)
-	{
-		s[0] = 0;
-		char hh[3];
-		char mm[3];
-		int var1 = (count / 60) % 24;
-		int var2 = count % 60;
-		itoa(var1, hh);
-		itoa(var2, mm);
-		strcat(s, hh);
-		strcat(s, ":");
-		strcat(s, mm);
-	}
 	void windows()
 	{
 		text.strcpy_center_text("Supporting information...");
 	}
-	static const subgroup_function sg_f = information;
 
 	static const int Top_shift1 = 4;
 	static const int Top_shift2 = Top_shift1 + 1;
@@ -100,16 +111,14 @@ private:
 		&title,
 		&text
 	};
-	char flag[2];
-	char s[7];
 
 };
 
-class Win1
+class Win_Data:Win
 {
 public:
-	Win1();
-	~Win1();
+	Win_Data();
+	~Win_Data();
 	void update()
 	{
 		for (size_t i = 0; i < sizeof(parr) / 4; i++)
@@ -124,117 +133,88 @@ public:
 			(*parr[i]).refresh();
 		}
 	}
-	void set_time(int count)
-	{
-		get_time(count);
-		data_time4.strcpy_center_text(s);
-	}
+	//void set_time(int count)
+	//{
+	//	get_time(count);
+	//	data_time4.strcpy_center_text(s);
+	//}
 
+	//1 string
+	CntrlSubGroup data_time0;
 	CntrlSubGroup data_time1;
-	CntrlSubGroup data_time2;
-	CntrlSubGroup data_time3;
-	CntrlSubGroup data_time4;
 
-	CntrlSubGroup full_name;
-	CntrlSubGroup surname;
+	//2 string
+	CntrlSubGroup surname0;
 	CntrlSubGroup surname1;
-	CntrlSubGroup name;
+
+	//3 string
+	CntrlSubGroup name0;
 	CntrlSubGroup name1;
-	CntrlSubGroup middle_name;
+
+	//4 string
+	CntrlSubGroup middle_name0;
 	CntrlSubGroup middle_name1;
 
-	CntrlSubGroup eye_ametropia;
-	CntrlSubGroup OD;
-	CntrlSubGroup OD1;
-	CntrlSubGroup OD2;
-	CntrlSubGroup OD3;
+	//5 string
+	CntrlSubGroup book_numb0;
+	CntrlSubGroup book_numb1;
 
-	CntrlSubGroup OS;
-	CntrlSubGroup OS1;
-	CntrlSubGroup OS2;
-	CntrlSubGroup OS3;
+	//Extend button
+	CntrlSubGroup extend_button0;
+	CntrlSubGroup extend_button1;
+	CntrlSubGroup extend_button2;
+	CntrlSubGroup extend_button3;
+	CntrlSubGroup extend_button4;
 
-	CntrlSubGroup extern_button0;
-	CntrlSubGroup extern_button1;
-	CntrlSubGroup extern_button2;
-	CntrlSubGroup extern_button3;
-	CntrlSubGroup extern_button4;
-
-	CntrlSubGroup extern_button_description0;
-	CntrlSubGroup extern_button_description1;
-	CntrlSubGroup extern_button_description2;
-	CntrlSubGroup extern_button_description3;
-	CntrlSubGroup extern_button_description4;
+	CntrlSubGroup extend_button_description0;
+	CntrlSubGroup extend_button_description1;
+	CntrlSubGroup extend_button_description2;
+	CntrlSubGroup extend_button_description3;
+	CntrlSubGroup extend_button_description4;
 private:
-	void itoa(int n, char s[])
-	{
-		int i, sign;
-
-		if ((sign = n) < 0)  /* записываем знак */
-			n = -n;          /* делаем n положительным числом */
-		i = 0;
-		do {       /* генерируем цифры в обратном порядке */
-			s[i++] = n % 10 + '0';   /* берем следующую цифру */
-		} while ((n /= 10) > 0);     /* удаляем */
-		if (sign < 0)
-			s[i++] = '-';
-		s[i] = '\0';
-		reverse(s);
-	}
-	void reverse(char s[])
-	{
-		int i, j;
-		char c;
-
-		for (i = 0, j = strlen(s) - 1; i<j; i++, j--) {
-			c = s[i];
-			s[i] = s[j];
-			s[j] = c;
-		}
-	}
-	void get_time(int count)
-	{
-		s[0] = 0;
-		char hh[3];
-		char mm[3];
-		int var1 = (count / 60) % 24;
-		int var2 = count % 60;
-		itoa(var1, hh);
-		itoa(var2, mm);
-		strcat(s, hh);
-		strcat(s, ":");
-		strcat(s, mm);
-	}
 	void windows()
 	{
+		char str_data_time0[13] = { 49, 46, 196, 224, 242, 224, 47, 194, 240, 229, 236, 255, 0 };//1.Дата/Время
+		data_time0.strcpy_text(str_data_time0);
+		data_time1.strcpy_center_text("10.03.16 0:0");
 
-		data_time2.strcpy_center_text("2015.12.31");
-		data_time4.strcpy_center_text("0:0");
 
+		char str_surname0[13] = { 32, 32, 32, 50, 46, 212, 224, 236, 232, 235, 232, 255, 0 };//   2.Фамилия
+		surname0.strcpy_text(str_surname0);
 		surname1.strcpy_center_text("Kuznetsov");
+
+		char str_name0[13] = { 32, 32, 32, 32, 32, 32, 32, 51, 46, 200, 236, 255, 0 };//       3.Имя
+		name0.strcpy_text(str_name0);
 		name1.strcpy_center_text("Denis");
+
+		char str_middle_name0[13] = { 32, 32, 52, 46, 206, 242, 247, 229, 241, 242, 226, 238, 0 };//  4.Отчество
+		middle_name0.strcpy_text(str_middle_name0);
 		middle_name1.strcpy_center_text("Pavlovich");
 
-		OD1.strcpy_center_text(flag);
-		OD2.strcpy_center_text("10.5");
-		OD3.strcpy_center_text("-3.2");
+		char str_book_numb0[13] = { 32, 32, 32, 53, 46, 35, 32, 234, 224, 240, 242, 251, 0 };//   5.# карты
+		book_numb0.strcpy_text(str_book_numb0);
+		book_numb1.strcpy_center_text("1251");
 
-		OS1.strcpy_center_text(flag);
-		OS2.strcpy_center_text("10.5");
-		OS3.strcpy_center_text("-3.2");
-		data_time4.strcpy_center_text(s);
+
+		char str_extend_button_description0[8] = { 207, 238, 236, 238, 249, 252, 0 };//Помощь
+		extend_button_description0.strcpy_center_text(str_extend_button_description0);
+
+		char str_extend_button_description1[8] = { 209, 225, 240, 238, 241, 0 };//Сброс
+		extend_button_description1.strcpy_center_text(str_extend_button_description1);
+
+		char str_extend_button_description2[8] = { 196, 224, 235, 229, 229, 0 };//Далее
+		extend_button_description2.strcpy_center_text(str_extend_button_description2);
+
 
 	}
-	static const subgroup_function sg_f = information;
 
-	CntrlSubGroup* parr[30] = { &data_time1, &data_time2, &data_time3, &data_time4, &full_name, &surname, &surname1, &name, &name1, &middle_name, &middle_name1, &eye_ametropia, &OD, &OD1, &OD2, &OD3, &OS, &OS1, &OS2, &OS3, &extern_button0, &extern_button1, &extern_button2, &extern_button3, &extern_button4, &extern_button_description0, &extern_button_description1, &extern_button_description2, &extern_button_description3, &extern_button_description4 };
-	char flag[2];
-	char s[7];
+	CntrlSubGroup* parr[20] = { &data_time0, &data_time1, &surname0, &surname1, &name0, &name1, &middle_name0,  &middle_name1, &book_numb0, &book_numb1, &extend_button0, &extend_button1, &extend_button2, &extend_button3, &extend_button4, &extend_button_description0, &extend_button_description1, &extend_button_description2, &extend_button_description3, &extend_button_description4 };
+	
 
 };
 
 
-class Win2
+class Win2:Win
 {
 public:
 	Win2();
@@ -286,57 +266,18 @@ public:
 	CntrlSubGroup start_finish2x1;
 	CntrlSubGroup start_finish_field2x1;
 
-	CntrlSubGroup extern_button0;
-	CntrlSubGroup extern_button1;
-	CntrlSubGroup extern_button2;
-	CntrlSubGroup extern_button3;
-	CntrlSubGroup extern_button4;
+	CntrlSubGroup extend_button0;
+	CntrlSubGroup extend_button1;
+	CntrlSubGroup extend_button2;
+	CntrlSubGroup extend_button3;
+	CntrlSubGroup extend_button4;
 
-	CntrlSubGroup extern_button_description0;
-	CntrlSubGroup extern_button_description1;
-	CntrlSubGroup extern_button_description2;
-	CntrlSubGroup extern_button_description3;
-	CntrlSubGroup extern_button_description4;
+	CntrlSubGroup extend_button_description0;
+	CntrlSubGroup extend_button_description1;
+	CntrlSubGroup extend_button_description2;
+	CntrlSubGroup extend_button_description3;
+	CntrlSubGroup extend_button_description4;
 private:
-	void itoa(int n, char s[])
-	{
-		int i, sign;
-
-		if ((sign = n) < 0)  /* записываем знак */
-			n = -n;          /* делаем n положительным числом */
-		i = 0;
-		do {       /* генерируем цифры в обратном порядке */
-			s[i++] = n % 10 + '0';   /* берем следующую цифру */
-		} while ((n /= 10) > 0);     /* удаляем */
-		if (sign < 0)
-			s[i++] = '-';
-		s[i] = '\0';
-		reverse(s);
-	}
-	void reverse(char s[])
-	{
-		int i, j;
-		char c;
-
-		for (i = 0, j = strlen(s) - 1; i<j; i++, j--) {
-			c = s[i];
-			s[i] = s[j];
-			s[j] = c;
-		}
-	}
-	void get_time(int count)
-	{
-		s[0] = 0;
-		char hh[3];
-		char mm[3];
-		int var1 = (count / 60) % 24;
-		int var2 = count % 60;
-		itoa(var1, hh);
-		itoa(var2, mm);
-		strcat(s, hh);
-		strcat(s, ":");
-		strcat(s, mm);
-	}
 	void windows()
 	{
 
@@ -392,20 +333,18 @@ private:
 		&start_finish1x1, &start_finish_field1x1,
 		&start_finish2x1, &start_finish_field2x1,
 
-		&extern_button0, 
-		&extern_button1, 
-		&extern_button2, 
-		&extern_button3, 
-		&extern_button4, 
+		&extend_button0, 
+		&extend_button1, 
+		&extend_button2, 
+		&extend_button3, 
+		&extend_button4, 
 
-		&extern_button_description0, 
-		&extern_button_description1, 
-		&extern_button_description2, 
-		&extern_button_description3, 
-		&extern_button_description4 
+		&extend_button_description0, 
+		&extend_button_description1, 
+		&extend_button_description2, 
+		&extend_button_description3, 
+		&extend_button_description4 
 	};
-	char flag[2];
-	char s[7];
 
 };
 

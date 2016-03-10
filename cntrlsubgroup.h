@@ -10,7 +10,22 @@ class CntrlSubGroup
 public:
 	CntrlSubGroup(Color_Style style, Metric_Parameters metric) :ISG(IntrfSubGroup_Init_Parameters(style, metric, &state, text)), metric(metric), state(false), modification(false){};
 	CntrlSubGroup(Color_Style style, Metric_Parameters metric, const char*_text) :ISG(IntrfSubGroup_Init_Parameters(style, metric, &state, text)), metric(metric), state(false), modification(false){ strcpy_center_text(_text); };
-	CntrlSubGroup(Color_Style style, Metric_Parameters metric, int _text) :ISG(IntrfSubGroup_Init_Parameters(style, metric, &state, text)), metric(metric), state(false), modification(false){ strcpy_center_text(_text); };
+	CntrlSubGroup(Color_Style style, Metric_Parameters metric, int _text) :ISG(IntrfSubGroup_Init_Parameters(style, metric, &state, text)), metric(metric), state(false), modification(false){ strcpy_center_text(_text); }; 
+
+	CntrlSubGroup(Color_Style style, Metric_Parameters metric, const char*_text, bool center) :ISG(IntrfSubGroup_Init_Parameters(style, metric, &state, text)), metric(metric), state(false), modification(false)
+	{
+		if (center)
+			strcpy_center_text(_text);
+		else
+			strcpy_text(_text);
+	};
+	CntrlSubGroup(Color_Style style, Metric_Parameters metric, int _text, bool center) :ISG(IntrfSubGroup_Init_Parameters(style, metric, &state, text)), metric(metric), state(false), modification(false)
+	{
+		if (center)
+			strcpy_center_text(_text);
+		else
+			strcpy_text(_text);
+	}
 	CntrlSubGroup();
 	~CntrlSubGroup();
 	void refresh();

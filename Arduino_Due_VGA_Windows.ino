@@ -1,10 +1,10 @@
 #include <VGA.h>
-#include"VGA_windows.h"
+#include"VGA_windows_reduce.h"
 
 
 //CntrlSubGroup counter(Color_Style(sg_f), Metric_Parameters(35, 1, 4, 1));
 
-Win1* win1;
+Win_Data* win1;
 Win2* win2;
 Win_help* win_help;
 int count = 0;
@@ -12,12 +12,12 @@ void setup()
 {
 	Serial.begin(9600);
 	VGA.begin(320, 240, VGA_COLOUR);
-	win1 = new Win1;
+	win1 = new Win_Data;
 	win2 = new Win2;
 	win_help = new Win_help;
-	(*win2).refresh();
-	(*win2).refresh();
-	(*win_help).refresh();
+	(*win1).refresh();
+	//(*win2).refresh();
+	//(*win_help).refresh();
 	//(*win_help).refresh();
 	
 }
@@ -28,7 +28,7 @@ void help_function_1()
 	(*win1).refresh();
 	count++;
 	(*win1).data_time1.state_switch();
-	(*win1).set_time(count);
+	//(*win1).set_time(count);
 	(*win1).name1.strcpy_center_text("Denis");
 	(*win1).update();
 	delay(500);
