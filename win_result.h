@@ -148,8 +148,10 @@ private:
 class Win_Result_Handler : public Keyboard_Handler
 {
 public:
-	Win_Result_Handler(Temporary_Data* _Temp_D) : Temp_D(_Temp_D)
+	Win_Result_Handler(Temporary_Data* _Temp_D, Data_Manager& _Data_Mngr) : Temp_D(_Temp_D)//, Keyboard_Handler(Data_Mngr)
 	{
+
+		Data_Mngr = &_Data_Mngr;
 		win = new Win_Result;
 	};
 	~Win_Result_Handler()
@@ -193,6 +195,7 @@ public:
 	};
 	void action_buttonF3()
 	{
+		(*Data_Mngr).save_result();
 		set_jump(id_wind_end);
 	};
 

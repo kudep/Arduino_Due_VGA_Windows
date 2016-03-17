@@ -1,14 +1,15 @@
 #ifndef KEYBOARD_HANDLER_H_INCLUDED
 #define KEYBOARD_HANDLER_H_INCLUDED
-#include"database_structure.h"
+#include"data_manager.h"
 #include <VGA.h>
 
-enum id_wind { id_wind_undifine, id_wind_help, id_wind_data, id_wind_oper, id_wind_result, id_wind_end };
+enum id_wind { id_wind_undifine, id_wind_help, id_wind_data, id_wind_oper, id_wind_result, id_wind_end, id_wind_error_verif_data_mngr };
 
 class Keyboard_Handler
 {
 public:
 	Keyboard_Handler();
+	//Keyboard_Handler(Data_Manager& Data_Mngr){}
 	~Keyboard_Handler();
 	virtual void init()
 	{
@@ -37,7 +38,17 @@ public:
 
 	virtual void action_button_left_point(){};
 	virtual void action_button_rigth_point(){};
-
+	void refresh_timer()
+	{
+		//if ((*Data_Mngr).verification())
+		//{
+		//	return;
+		//}
+		//else
+		//{
+		//	set_jump(id_wind_error_verif_data_mngr);
+		//}
+	}
 	virtual void set_word(const char word){};
 
 	virtual bool get_jump(){ return jump; };
@@ -48,6 +59,7 @@ public:
 
 	virtual void set_back_handler(id_wind  _back_handler){}
 protected:
+	Data_Manager* Data_Mngr;
 	bool jump = false;
 	id_wind handler_num = id_wind_undifine;
 

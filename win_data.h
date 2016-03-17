@@ -4,6 +4,7 @@
 #include <VGA.h>
 #include"VGA_base_windows.h"
 #include"keyboard_handler.h"
+
 class Win_Data :Win
 {
 public:
@@ -110,8 +111,10 @@ private:
 class Win_Data_Handler : public Keyboard_Handler
 {
 public:
-	Win_Data_Handler(Temporary_Data* _Temp_D) : Temp_D(_Temp_D)
+	Win_Data_Handler(Temporary_Data* _Temp_D, Data_Manager& _Data_Mngr) : Temp_D(_Temp_D)//, Keyboard_Handler(Data_Mngr)
 	{
+
+		Data_Mngr = &_Data_Mngr;
 		win = new Win_Data;
 	};
 	~Win_Data_Handler()

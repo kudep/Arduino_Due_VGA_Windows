@@ -268,8 +268,9 @@ private:
 class Win_Oper_Handler : public Keyboard_Handler
 {
 public:
-	Win_Oper_Handler(Temporary_Data* _Temp_D) : Temp_D(_Temp_D)
+	Win_Oper_Handler(Temporary_Data* _Temp_D, Data_Manager& _Data_Mngr) :Temp_D(_Temp_D)//, Keyboard_Handler(Data_Mngr)
 	{
+		Data_Mngr = &_Data_Mngr;
 		win = new Win_Oper;
 
 		Temp_P.reset();
@@ -415,8 +416,10 @@ public:
 		set_jump(id_wind_result);
 	};
 
-	void refresh_timer()
+	void refresh_timer() 
 	{
+		Keyboard_Handler::refresh_timer();
+
 		if (Temp_P.timer_switch)
 		{
 			Temp_P.timer_count++;

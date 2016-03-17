@@ -97,8 +97,9 @@ private:
 class Win_Help_Handler : public Keyboard_Handler
 {
 public:
-	Win_Help_Handler(Temporary_Data* _Temp_D) : Temp_D(_Temp_D)
+	Win_Help_Handler(Temporary_Data* _Temp_D, Data_Manager& _Data_Mngr) : Temp_D(_Temp_D)//, Keyboard_Handler(Data_Mngr)
 	{
+		Data_Mngr = &_Data_Mngr;
 		win = new Win_Help;
 	};
 	~Win_Help_Handler()
