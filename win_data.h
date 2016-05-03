@@ -256,7 +256,7 @@ public:
 	};
 	void action_buttonF3()
 	{
-		set_jump(id_wind_oper);
+		set_jump(id_wind_option);
 	};
 
 private:

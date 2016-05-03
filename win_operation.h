@@ -155,7 +155,7 @@ private:
 
 };
 
-struct Temp_Param_Win
+struct Temp_Param_Win_Oper
 {
 	float start_position = 0;
 	bool test_obj_mode = false;
@@ -407,7 +407,7 @@ public:
 
 	void action_buttonF2()
 	{
-		set_jump(id_wind_data);
+		set_jump(id_wind_option);
 	};
 
 
@@ -443,7 +443,7 @@ public:
 private:
 	Win_Oper* win;
 	Temporary_Data* Temp_D;
-	Temp_Param_Win Temp_P;
+	Temp_Param_Win_Oper Temp_P;
 	bool vision = false;
 	char s[7];
 	void itoa(int n, char s[])

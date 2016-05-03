@@ -1,6 +1,7 @@
 #include <VGA.h>
-#include"win_data.h"
 #include"win_help.h"
+#include"win_data.h"
+#include"win_options.h"
 #include"win_operation.h"
 #include"win_result.h"
 #include"win_mess.h"
@@ -135,6 +136,7 @@ void Process()
 int count = 0;
 Keyboard_Handler* pwh;
 Keyboard_Handler* pwd;
+Keyboard_Handler* pwp;
 Keyboard_Handler* pwo;
 Keyboard_Handler* pwr;
 Keyboard_Handler* pwm;
@@ -143,7 +145,7 @@ Temporary_Data Temp_D;
 Data_Manager Data_Mngr(Temp_D);
 
 CLongTimer TMR1(1000);
-Win_Result*wd;
+
 void change_wind()
 {
 	static id_wind handler_num = id_wind_undifine;
@@ -165,6 +167,10 @@ void change_wind()
 		case id_wind_data:
 			Serial.println("Go to data");
 			pw = pwd;
+			break;
+		case id_wind_option:
+			Serial.println("Go to option");
+			pw = pwp;
 			break;
 		case id_wind_oper:
 			Serial.println("Go to oper");
@@ -211,6 +217,7 @@ void setup()
 
 	pwh = new Win_Help_Handler(&Temp_D, Data_Mngr);
 	pwd = new Win_Data_Handler(&Temp_D, Data_Mngr);
+	pwp = new Win_Option_Handler(&Temp_D, Data_Mngr);
 	pwo = new Win_Oper_Handler(&Temp_D, Data_Mngr);
 	pwr = new Win_Result_Handler(&Temp_D, Data_Mngr);
 	pwm = new Win_Mess_Handler(&Temp_D, Data_Mngr);

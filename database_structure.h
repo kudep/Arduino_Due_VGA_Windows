@@ -39,30 +39,31 @@ struct	Eye_Meas
 
 struct	Eye_Train_Parameters
 {
-	float value=0;
-	float post_value = 0;
+	float value = 0;
+	Stack seq;
+	char viz[3];
 	void reset()
 	{
-		value = 0;
-		post_value = 0;
+		seq.drain();
+		viz[0] = 0;
 	}
 };
 
 struct	Eye_Train
 {
-	bool od = false;
+	float time_od = 0;
 	Eye_Train_Parameters od_n;//ближнии параметры глаза
 	Eye_Train_Parameters od_f;//дальнии параметры глаза
-	bool os = false;
+	float time_os = 0;
 	Eye_Train_Parameters os_n;//ближнии параметры глаза
 	Eye_Train_Parameters os_f;//дальнии параметры глаза
-	int time = 0;
+	float time = 0;
 	void reset()
 	{
-		od = false;
+		time_od = 0;
 		od_n.reset();
 		od_f.reset();
-		os = false;
+		time_os = 0;
 		os_n.reset();
 		os_f.reset();
 		time = 0;
