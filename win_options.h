@@ -430,6 +430,10 @@ private:
 		{
 		case 3:
 			Temp_P.time_t_os += sign*EYE_DIV_VALUE_TIME;
+			if (Temp_P.time_t_os < 0)
+			{
+				Temp_P.time_t_os = 0;
+			}
 			(*Temp_D).t_eye.time_os = Temp_P.time_t_os;
 			(*win).time_t_os1.strcpy_center_text(Temp_P.time_t_os, POINT_AFTER_COMMA);
 			break;
@@ -445,6 +449,10 @@ private:
 			break;
 		case 6:
 			Temp_P.time_t_od += sign*EYE_DIV_VALUE_TIME;
+			if (Temp_P.time_t_od < 0)
+			{
+				Temp_P.time_t_od = 0;
+			}
 			(*Temp_D).t_eye.time_od = Temp_P.time_t_od;
 			(*win).time_t_od1.strcpy_center_text(Temp_P.time_t_od, POINT_AFTER_COMMA);
 			break;
