@@ -93,7 +93,11 @@ public:
 
 					_file.print(_str);
 
-					_file.print((*Temp_D).data_time);
+					_file.print((*Temp_D).data);
+
+					_file.print(" ");
+
+					_file.print((*Temp_D).time);
 
 					_file.println();
 

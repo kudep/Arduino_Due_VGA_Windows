@@ -71,7 +71,8 @@ struct	Eye_Train
 
 struct	Temporary_Data
 {
-	char data_time[DATA_STRING_LENGTH];
+	char data[DATA_STRING_LENGTH];
+	char time[DATA_STRING_LENGTH];
 	char surname[DATA_STRING_LENGTH];
 	char name[DATA_STRING_LENGTH];
 	char middle_name[DATA_STRING_LENGTH];
@@ -82,7 +83,8 @@ struct	Temporary_Data
 	Eye_Train t_eye;
 	void reset()
 	{
-		data_time[0] = 0;
+		data[0] = 0;
+		time[0] = 0;
 		surname[0] = 0;
 		name[0] = 0;
 		middle_name[0] = 0;

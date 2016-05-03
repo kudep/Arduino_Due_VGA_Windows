@@ -148,6 +148,7 @@ void change_wind()
 {
 	static id_wind handler_num = id_wind_undifine;
 	Serial.println((*pw).get_handler());
+	if ((*pw).get_handler() != id_wind_help) handler_num = (*pw).get_handler();
 	if ((*pw).get_jump())
 	{
 		(*pw).finit();
@@ -194,7 +195,6 @@ void change_wind()
 			Serial.println("Ooops!"); 
 			break;
 		}
-		handler_num = (*pw).get_handler();
 		(*pw).init();
 	}
 }
