@@ -3,6 +3,7 @@
 #include"win_data.h"
 #include"win_options.h"
 #include"win_operation.h"
+#include"win_train.h"
 #include"win_result.h"
 #include"win_mess.h"
 #include"longtime.h"
@@ -138,6 +139,7 @@ Keyboard_Handler* pwh;
 Keyboard_Handler* pwd;
 Keyboard_Handler* pwp;
 Keyboard_Handler* pwo;
+Keyboard_Handler* pwt;
 Keyboard_Handler* pwr;
 Keyboard_Handler* pwm;
 Temporary_Data Temp_D;
@@ -158,7 +160,11 @@ void change_wind()
 		{
 		case id_wind_help:
 			Serial.println("Go to help");
-			pw = pwh;
+			delay(1000);
+			delete[]pw;
+			Serial.println("Go to help");
+			delay(1000);
+			pw = new Win_Help_Handler(&Temp_D, Data_Mngr);
 			if (handler_num != id_wind_undifine) 
 				(*pw).set_back_handler(handler_num);
 			else
@@ -166,15 +172,23 @@ void change_wind()
 			break;
 		case id_wind_data:
 			Serial.println("Go to data");
-			pw = pwd;
+			delete[]pw;
+			pw = new Win_Data_Handler(&Temp_D, Data_Mngr);
 			break;
 		case id_wind_option:
 			Serial.println("Go to option");
-			pw = pwp;
+			delete[]pw;
+			pw = new Win_Option_Handler(&Temp_D, Data_Mngr);
 			break;
 		case id_wind_oper:
 			Serial.println("Go to oper");
-			pw = pwo;
+			delete[]pw;
+			pw = new Win_Oper_Handler(&Temp_D, Data_Mngr);
+			break;
+		case id_wind_train:
+			Serial.println("Go to train");
+			delete[]pw;
+			pw = new Win_Train_Handler(&Temp_D, Data_Mngr);
 			break;
 		case id_wind_result:
 			Serial.println("Go to result");
@@ -183,7 +197,8 @@ void change_wind()
 
 		case id_wind_end:
 			Serial.println("Go to mess of the end");
-			pw = pwm;
+			delete[]pw;
+			pw = new Win_Mess_Handler(&Temp_D, Data_Mngr);
 			(*pw).set_back_handler(id_wind_data);
 			(*pw).push_message(id_wind_end);
 			break;
@@ -215,17 +230,18 @@ void setup()
 	Serial.begin(9600);
 	VGA.begin(320, 240, VGA_COLOUR);
 
-	pwh = new Win_Help_Handler(&Temp_D, Data_Mngr);
-	pwd = new Win_Data_Handler(&Temp_D, Data_Mngr);
-	pwp = new Win_Option_Handler(&Temp_D, Data_Mngr);
-	pwo = new Win_Oper_Handler(&Temp_D, Data_Mngr);
-	pwr = new Win_Result_Handler(&Temp_D, Data_Mngr);
-	pwm = new Win_Mess_Handler(&Temp_D, Data_Mngr);
+	//pwh = new Win_Help_Handler(&Temp_D, Data_Mngr);
+	//pwd = new Win_Data_Handler(&Temp_D, Data_Mngr);
+	//pwp = new Win_Option_Handler(&Temp_D, Data_Mngr);
+	//pwo = new Win_Oper_Handler(&Temp_D, Data_Mngr);
+	//pwt = new Win_Train_Handler(&Temp_D, Data_Mngr);
+	//pwr = new Win_Result_Handler(&Temp_D, Data_Mngr);
+	//pwm = new Win_Mess_Handler(&Temp_D, Data_Mngr);
 
 	TMR1.event(refresh_timer);
 	TMR1.start();
 
-	pw = pwd;
+	pw = new Win_Data_Handler(&Temp_D, Data_Mngr);
 	(*pw).init();
 }
 const int deley_t = 100;

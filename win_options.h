@@ -5,7 +5,7 @@
 #include"VGA_base_windows.h"
 #include"keyboard_handler.h"
 
-#define EYE_DIV_VALUE_TIME 0.5
+#define EYE_DIV_VALUE_TIME 30
 #define EYE_DIV_VALUE_METRIC 0.5
 class Win_Option :Win
 {
@@ -84,51 +84,51 @@ private:
 	void windows()
 	{
 		//Meas. title
-		char str_meas_title[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 200, 199, 204, 197, 208, 197, 205, 200, 197, 0 };//ИЗМЕРЕНИЕ
+		char str_meas_title[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 200, 199, 204, 197, 208, 197, 205, 200, 197, 0 };//ИЗМЕРЕНИЕ
 		meas_title.strcpy_text(str_meas_title);
 
 		//1 string
-		char str_choose_m_os0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 49, 46, 200, 231, 236, 229, 240, 229, 237, 232, 229, 32, 79, 83, 0 };//1.Измерение OS
+		char str_choose_m_os0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 49, 46, 200, 231, 236, 229, 240, 229, 237, 232, 229, 32, 79, 83, 0 };//1.Измерение OS
 		choose_m_os0.strcpy_text(str_choose_m_os0);
 		choose_m_os1.strcpy_center_text("");
 
 
 		//2 string
-		char str_choose_m_od0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 50, 46, 200, 231, 236, 229, 240, 229, 237, 232, 229, 32, 79, 68, 0 };//2.Измерение OD
+		char str_choose_m_od0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 50, 46, 200, 231, 236, 229, 240, 229, 237, 232, 229, 32, 79, 68, 0 };//2.Измерение OD
 		choose_m_od0.strcpy_text(str_choose_m_od0);
 		choose_m_od1.strcpy_center_text("");
 
 		//Train. title
-		char str_train_title[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 210, 208, 197, 205, 200, 208, 206, 194, 202, 192, 0 };//ТРЕНИРОВКА
+		char str_train_title[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 210, 208, 197, 205, 200, 208, 206, 194, 202, 192, 0 };//ТРЕНИРОВКА
 		train_title.strcpy_text(str_train_title);
 
 		//3 string
-		char str_time_t_os0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 51, 46, 194, 240, 229, 236, 255, 32, 242, 240, 229, 237, 46, 32, 79, 83, 0 };//3.Время трен. OS
+		char str_time_t_os0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 51, 46, 194, 240, 229, 236, 255, 32, 242, 240, 229, 237, 46, 32, 79, 83, 0 };//3.Время трен. OS
 		time_t_os0.strcpy_text(str_time_t_os0);
 		time_t_os1.strcpy_center_text("0");
 
 		//4 string
-		char str_os_n0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 52, 46, 193, 235, 232, 230, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//4.Ближняя грань
+		char str_os_n0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 52, 46, 193, 235, 232, 230, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//4.Ближняя грань
 		os_n0.strcpy_text(str_os_n0);
 		os_n1.strcpy_center_text("0");
 
 		//5 string
-		char str_os_f0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 53, 46, 196, 224, 235, 252, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//5.Дальняя грань
+		char str_os_f0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 53, 46, 196, 224, 235, 252, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//5.Дальняя грань
 		os_f0.strcpy_text(str_os_f0);
 		os_f1.strcpy_center_text("0");
 
 		//6 string
-		char str_time_t_od0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 54, 46, 194, 240, 229, 236, 255, 32, 242, 240, 229, 237, 46, 32, 79, 68, 0 };//6.Время трен. OD
+		char str_time_t_od0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 54, 46, 194, 240, 229, 236, 255, 32, 242, 240, 229, 237, 46, 32, 79, 68, 0 };//6.Время трен. OD
 		time_t_od0.strcpy_text(str_time_t_od0);
 		time_t_od1.strcpy_center_text("0");
 
 		//7 string
-		char str_od_n0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 55, 46, 193, 235, 232, 230, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//7.Ближняя грань
+		char str_od_n0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 55, 46, 193, 235, 232, 230, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//7.Ближняя грань
 		od_n0.strcpy_text(str_od_n0);
 		od_n1.strcpy_center_text("0");
 
 		//8 string
-		char str_od_f0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 56, 46, 196, 224, 235, 252, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//8.Дальняя грань
+		char str_od_f0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 56, 46, 196, 224, 235, 252, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//8.Дальняя грань
 		od_f0.strcpy_text(str_od_f0);
 		od_f1.strcpy_center_text("0");
 
@@ -246,10 +246,10 @@ public:
 		vision = true;
 		(*win).choose_m_os1.strcpy_center_text(Temp_P.get_choose_m_os());
 		(*win).choose_m_od1.strcpy_center_text(Temp_P.get_choose_m_od());
-		(*win).time_t_os1.strcpy_center_text(Temp_P.time_t_os);
+		(*win).time_t_os1.strcpy_center_text(get_time(Temp_P.time_t_os));
 		(*win).os_n1.strcpy_center_text(Temp_P.os_n, POINT_AFTER_COMMA);
 		(*win).os_f1.strcpy_center_text(Temp_P.os_f, POINT_AFTER_COMMA);
-		(*win).time_t_od1.strcpy_center_text(Temp_P.time_t_od);
+		(*win).time_t_od1.strcpy_center_text(get_time(Temp_P.time_t_od));
 		(*win).od_n1.strcpy_center_text(Temp_P.od_n, POINT_AFTER_COMMA);
 		(*win).od_f1.strcpy_center_text(Temp_P.od_f, POINT_AFTER_COMMA);
 		(*win).refresh();
@@ -259,7 +259,12 @@ public:
 	{
 		Keyboard_Handler::finit();
 
+		set_point = 0;
+
 		vision = false;
+
+		(*Temp_D).t_eye.time_spend_od = (*Temp_D).t_eye.time_os;
+		(*Temp_D).t_eye.time_spend_os = (*Temp_D).t_eye.time_od;
 	}
 	void action_button1()
 	{
@@ -358,12 +363,10 @@ public:
 	void action_button_left_point()
 	{
 		change_value_in_point(-1);
-		(*win).update();
 	};
 	void action_button_rigth_point()
 	{
 		change_value_in_point(1); 
-		(*win).update();
 	};
 private:
 	Win_Option* win;

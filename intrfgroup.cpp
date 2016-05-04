@@ -11,6 +11,7 @@ IntrfGroup::~IntrfGroup()
 	if (visible)
 	{
 		delete[] sector_array;
+		delete[] content_metric_width;
 	}
 }
 

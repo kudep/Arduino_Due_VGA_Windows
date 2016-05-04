@@ -64,27 +64,27 @@ public:
 private:
 	void windows()
 	{
-		char str_data0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 49, 46, 196, 224, 242, 224, 0 };//1.Дата
+		char str_data0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 49, 46, 196, 224, 242, 224, 0 };//1.Дата
 		data0.strcpy_text(str_data0);
 		data1.strcpy_center_text("");
-		char str_time0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 32, 32, 32, 50, 46, 194, 240, 229, 236, 255, 0 };//2.Время
+		char str_time0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 32, 32, 32, 50, 46, 194, 240, 229, 236, 255, 0 };//2.Время
 		time0.strcpy_text(str_time0);
 		time1.strcpy_center_text("");
 
 
-		char str_surname0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 32, 51, 46, 212, 224, 236, 232, 235, 232, 255, 0 };//3.Фамилия
+		char str_surname0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 32, 51, 46, 212, 224, 236, 232, 235, 232, 255, 0 };//3.Фамилия
 		surname0.strcpy_text(str_surname0);
 		surname1.strcpy_center_text("");
 
-		char str_name0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 52, 46, 200, 236, 255, 0 };//4.Имя
+		char str_name0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 52, 46, 200, 236, 255, 0 };//4.Имя
 		name0.strcpy_text(str_name0);
 		name1.strcpy_center_text("");
 
-		char str_middle_name0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 52, 46, 206, 242, 247, 229, 241, 242, 226, 238, 0 };//4.Отчество
+		char str_middle_name0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 52, 46, 206, 242, 247, 229, 241, 242, 226, 238, 0 };//4.Отчество
 		middle_name0.strcpy_text(str_middle_name0);
 		middle_name1.strcpy_center_text("");
 
-		char str_book_numb0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 53, 46, 205, 238, 236, 229, 240, 32, 234, 224, 240, 242, 251, 0 };//5.Номер карты
+		char str_book_numb0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 53, 46, 205, 238, 236, 229, 240, 32, 234, 224, 240, 242, 251, 0 };//5.Номер карты
 		book_numb0.strcpy_text(str_book_numb0);
 		book_numb1.strcpy_center_text("");
 

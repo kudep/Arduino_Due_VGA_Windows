@@ -1,15 +1,17 @@
 
-#ifndef WIN_OPERATION_H_INCLUDED
-#define WIN_OPERATION_H_INCLUDED
+#ifndef WIN_TRAIN_H_INCLUDED
+#define WIN_TRAIN_H_INCLUDED
 #include <VGA.h>
 #include"VGA_base_windows.h"
 #include"keyboard_handler.h"
 
-class Win_Oper :Win
+#define EYE_DIV_VALUE_METRIC 0.5
+
+class Win_Train :Win
 {
 public:
-	Win_Oper();
-	~Win_Oper();
+	Win_Train();
+	~Win_Train();
 	void update()
 	{
 		for (size_t i = 0; i < sizeof(parr) / 4; i++)
@@ -28,12 +30,7 @@ public:
 	//1 string
 	CntrlSubGroup start_position0;
 	CntrlSubGroup start_position1;
-
-
-	//Info about testobject
-	CntrlSubGroup test_obj_info0;
-	CntrlSubGroup test_obj_info1;
-
+	
 	//2 string
 	CntrlSubGroup chang_test_obj0;
 	CntrlSubGroup chang_test_obj1;
@@ -55,20 +52,20 @@ public:
 	CntrlSubGroup eye_mode1;
 
 	//7 string
-	CntrlSubGroup focus_point0;
-	CntrlSubGroup focus_point1;
+	CntrlSubGroup focus_n0;
+	CntrlSubGroup focus_n1;
 
 	//8 string
-	CntrlSubGroup record_position0;
-	CntrlSubGroup record_position1;
-
-	//Recodes count 
-	CntrlSubGroup record_count0;
-	CntrlSubGroup record_count1;
+	CntrlSubGroup focus_f0;
+	CntrlSubGroup focus_f1;
 
 	//9 string
-	CntrlSubGroup remove_record0;
-	CntrlSubGroup remove_record1;
+	CntrlSubGroup position0;
+	CntrlSubGroup position1;
+
+	//Timer
+	CntrlSubGroup timer0;
+	CntrlSubGroup timer1;
 
 
 
@@ -92,13 +89,7 @@ private:
 		start_position0.strcpy_text(str_start_position0);
 		char str_start_position1[DATA_STRING_LENGTH] = { 209, 236, 229, 237, 232, 242, 252, 0 };//Сменить
 		start_position1.strcpy_center_text(str_start_position1);
-
-		//Info about testobject
-		char str_test_obj_info0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 200, 237, 244, 46, 32, 238, 225, 32, 238, 239, 242, 238, 242, 232, 239, 229, 0 };//Инф. об оптотипе
-		test_obj_info0.strcpy_text(str_test_obj_info0);
-		test_obj_info1.strcpy_center_text("");
 		
-
 		//2 string
 		char str_chang_test_obj0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 50, 46, 209, 236, 229, 237, 46, 32, 238, 239, 242, 238, 242, 232, 239, 0 };//2.Смен. оптотип
 		chang_test_obj0.strcpy_text(str_chang_test_obj0);
@@ -127,28 +118,25 @@ private:
 		eye_mode1.strcpy_center_text("OS");
 
 		//7 string
-		char str_focus_point1[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 55, 46, 209, 236, 229, 237, 46, 32, 227, 240, 224, 237, 232, 246, 243, 0 };//7.Смен. границу
-		focus_point0.strcpy_text(str_focus_point1);
-		focus_point1.strcpy_center_text("");
-
-
-		//Recodes count 
-		char str_record_count0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 194, 241, 229, 227, 238, 32, 231, 224, 239, 232, 241, 229, 233, 0 };//Всего записей
-		record_count0.strcpy_text(str_record_count0);
-		record_count1.strcpy_center_text("");
-
+		char str_focus_n0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 55, 46, 193, 235, 232, 230, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//7.Ближняя грань
+		focus_n0.strcpy_text(str_focus_n0);
+		focus_n1.strcpy_center_text("0.0");
 
 		//8 string
 
-		char str_record_position0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 56, 46, 199, 224, 239, 232, 241, 46, 32, 239, 238, 231, 232, 246, 232, 254, 0 };//8.Запис. позицию
-		record_position0.strcpy_text(str_record_position0);
-		record_position1.strcpy_center_text("0");
+		char str_focus_f0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 56, 46, 196, 224, 235, 252, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//8.Дальняя грань
+		focus_f0.strcpy_text(str_focus_f0);
+		focus_f1.strcpy_center_text("0.0");
 
 		//9 string
-		char str_remove_record0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 57, 46, 211, 228, 224, 235, 46, 32, 231, 224, 239, 232, 241, 252, 0 };//9.Удал. запись
-		remove_record0.strcpy_text(str_remove_record0);
-		remove_record1.strcpy_center_text("0");
-		
+		char str_position0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 57, 46, 32, 210, 229, 234, 243, 249, 229, 229, 32, 239, 238, 235, 238, 230, 0 };//9. Текущее полож
+		position0.strcpy_text(str_position0);
+		position1.strcpy_center_text("0.0");
+
+		//Timer
+		char str_timer0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 206, 241, 242, 224, 226, 248, 229, 229, 241, 255, 32, 226, 240, 229, 236, 255, 0 };//Оставшееся время
+		timer0.strcpy_text(str_timer0);
+		timer1.strcpy_center_text("0");
 
 		char str_extend_button_description0[8] = { 207, 238, 236, 238, 249, 252, 0 };//Помощь
 		extend_button_description0.strcpy_center_text(str_extend_button_description0);
@@ -158,53 +146,53 @@ private:
 
 		char str_extend_button_description2[8] = { 196, 224, 235, 229, 229, 0 };//Далее
 		extend_button_description2.strcpy_center_text(str_extend_button_description2);
-		
+
 
 	}
 
-	CntrlSubGroup* parr[32] = 
-	{ 
-		&start_position0, &start_position1, &test_obj_info0,
-		&test_obj_info1, &chang_test_obj0, &chang_test_obj1,
+	CntrlSubGroup* parr[32] =
+	{
+		&start_position0, &start_position1, &chang_test_obj0, &chang_test_obj1,
 		&chang_viz0, &chang_viz1, &patient_controller0, &patient_controller1,
 		&auto_mode0, &auto_mode1, &eye_mode0,
-		&eye_mode1, &focus_point0, &focus_point1,
-		&record_position0, &record_position1,
-		&record_count0, &record_count1,
-		&remove_record0, &remove_record1, &extend_button0, &extend_button1,
-	&extend_button2, &extend_button3, &extend_button4,
-	&extend_button_description0, &extend_button_description1,
-	&extend_button_description2, &extend_button_description3,
-	&extend_button_description4 
+		&eye_mode1, &focus_n0, &focus_n1,
+		&focus_f0, &focus_f1,
+		&position0, &position1,
+		&timer0, &timer1, &extend_button0, &extend_button1,
+		&extend_button2, &extend_button3, &extend_button4,
+		&extend_button_description0, &extend_button_description1,
+		&extend_button_description2, &extend_button_description3,
+		&extend_button_description4
 	};
 
 
 };
 
-struct Temp_Param_Win_Oper
+struct Temp_Param_Win_Train
 {
+	const bool const_eye_os = false;
+	const bool const_eye_od = true;
 	float start_position = 0;
-	char test_obj_info1[DATA_STRING_LENGTH];
 	bool viz = false;
 	bool ptnt_controller = false;
 	bool auto_mode = false;
 	bool eye = false;
-	bool focus_point = false;
-	int record_count = 0;
-	float record_position = 0;
+	float focus_n = 0;
+	float focus_f = 0;
+	float position = 0;
+	int timer_count = 0;
 
 	void reset()
 	{
-		char _test_obj_info1[DATA_STRING_LENGTH] = { 200, 237, 244, 238, 240, 236, 46, 32, 238, 32, 238, 239, 242, 238, 242, 232, 239, 229, 0 };//Информ. о оптотипе
-		strcpy(test_obj_info1, _test_obj_info1);
 		start_position = 0;
 		viz = false;
 		ptnt_controller = false;
 		auto_mode = false;
 		eye = false;
-		focus_point = false;
-		record_count = 0;
-		record_position = 0;
+		focus_n = 0;
+		focus_f = 0;
+		position = 0;
+		timer_count = 0;
 	}
 
 
@@ -278,39 +266,22 @@ struct Temp_Param_Win_Oper
 			return false_str;
 
 	}
-	void change_focus_point()
-	{
-		focus_point = !focus_point;
-
-	}
-	const char* get_focus_point()
-	{
-		char _true_str[8] = { 193, 235, 232, 230, 237, 255, 255, 0 };//Ближняя
-		char _false_str[8] = { 196, 224, 235, 252, 237, 255, 255, 0 };//Дальняя
-		strcpy(true_str, _true_str);
-		strcpy(false_str, _false_str);
-		if (focus_point)
-			return true_str;
-		else
-			return false_str;
-
-	}
 private:
 	char true_str[11];
 	char false_str[11];
 };
 
-class Win_Oper_Handler : public Keyboard_Handler
+class Win_Train_Handler : public Keyboard_Handler
 {
 public:
-	Win_Oper_Handler(Temporary_Data* _Temp_D, Data_Manager& _Data_Mngr) :Temp_D(_Temp_D)//, Keyboard_Handler(Data_Mngr)
+	Win_Train_Handler(Temporary_Data* _Temp_D, Data_Manager& _Data_Mngr) :Temp_D(_Temp_D)//, Keyboard_Handler(Data_Mngr)
 	{
 		Data_Mngr = &_Data_Mngr;
-		win = new Win_Oper;
+		win = new Win_Train;
 
 		Temp_P.reset();
 	};
-	~Win_Oper_Handler()
+	~Win_Train_Handler()
 	{
 		delete win;
 	};
@@ -320,22 +291,23 @@ public:
 		Keyboard_Handler::init();
 
 		vision = true;
-		(*win).test_obj_info1.strcpy_center_text(Temp_P.test_obj_info1);
+		load_all();
 		(*win).chang_viz1.strcpy_center_text(Temp_P.get_viz());
 		(*win).patient_controller1.strcpy_center_text(Temp_P.get_ptnt_controller());
 		(*win).auto_mode1.strcpy_center_text(Temp_P.get_auto_mode());
 		(*win).eye_mode1.strcpy_center_text(Temp_P.get_eye());
-		(*win).focus_point1.strcpy_center_text(Temp_P.get_focus_point());
-		(*win).record_count1.strcpy_center_text(Temp_P.record_count);
-		(*win).record_position1.strcpy_center_text(Temp_P.record_position, POINT_AFTER_COMMA);
-		(*win).remove_record1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.top(), POINT_AFTER_COMMA);
+		(*win).focus_n1.strcpy_center_text(Temp_P.focus_n);
+		(*win).focus_f1.strcpy_center_text(Temp_P.focus_f);
+		(*win).position1.strcpy_center_text(Temp_P.position, POINT_AFTER_COMMA);
+		(*win).timer1.strcpy_center_text(get_time(Temp_P.timer_count));
 		(*win).refresh();
 	}
 
 	void finit()
 	{
 		Keyboard_Handler::finit();
-
+		save_all();
+		set_point = 0;
 		vision = false;
 	}
 	void action_button1()
@@ -397,38 +369,35 @@ public:
 
 		Temp_P.change_eye();
 
+		save_all();
+		load_all();
+
 		(*win).eye_mode1.strcpy_center_text(Temp_P.get_eye());
-		(*win).remove_record1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.top());
-		(*win).record_count1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.getsize());
+		(*win).focus_n1.strcpy_center_text(Temp_P.focus_n);
+		(*win).focus_f1.strcpy_center_text(Temp_P.focus_f);
+		(*win).timer1.strcpy_center_text(Temp_P.timer_count);
 
 		(*win).eye_mode1.enable();
+
 		(*win).update();
 
 	};
-
 	void action_button7()
 	{
 		disable_buttons();
+		set_point = 7;
 
-		Temp_P.change_focus_point();
+		(*win).focus_n1.enable();
 
-		(*win).focus_point1.strcpy_center_text(Temp_P.get_focus_point());
-		(*win).remove_record1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.top(), POINT_AFTER_COMMA);
-		(*win).record_count1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.getsize());
-
-		(*win).focus_point1.enable();
 		(*win).update();
-
 	};
 
 	void action_button8()
 	{
 		disable_buttons();
-		(*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.push(Temp_P.record_position);
-		(*win).remove_record1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.top(), POINT_AFTER_COMMA);
-		(*win).record_position1.enable();
+		set_point = 8;
 
-		(*win).record_count1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.getsize());
+		(*win).focus_f1.enable();
 
 		(*win).update();
 	};
@@ -436,12 +405,9 @@ public:
 	void action_button9()
 	{
 		disable_buttons();
+		set_point = 9;
 
-		(*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.pop();
-		(*win).remove_record1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.top(), POINT_AFTER_COMMA);
-		(*win).remove_record1.enable();
-
-		(*win).record_count1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.getsize());
+		(*win).focus_f1.enable();
 
 		(*win).update();
 	};
@@ -453,34 +419,42 @@ public:
 
 	void action_buttonF2()
 	{
-		set_jump(id_wind_option);
+		set_jump(id_wind_oper);
 	};
 
 
 	void action_buttonF3()
 	{
-		set_jump(id_wind_train);
+		set_jump(id_wind_result);
 	};
 
 
 	void action_button_left_point()
 	{
-		Temp_P.record_position-=10.7;
-		(*win).record_position1.strcpy_center_text(Temp_P.record_position, POINT_AFTER_COMMA);
+		change_value_in_point(-1);
 		(*win).update();
 	};
 	void action_button_rigth_point()
 	{
-		Temp_P.record_position+=9.3;
-		(*win).record_position1.strcpy_center_text(Temp_P.record_position, POINT_AFTER_COMMA);
+		change_value_in_point(1);
 		(*win).update();
 	};
+	void refresh_timer()
+	{
+		Keyboard_Handler::refresh_timer();
+
+			Temp_P.timer_count--;
+
+			(*win).timer1.strcpy_center_text(get_time(Temp_P.timer_count));
+			if (vision)(*win).update();
+	};
 private:
-	Win_Oper* win;
+	Win_Train* win;
 	Temporary_Data* Temp_D;
-	Temp_Param_Win_Oper Temp_P;
+	Temp_Param_Win_Train Temp_P;
 	bool vision = false;
 	char s[7];
+	int set_point = 0;
 	void itoa(int n, char s[])
 	{
 		int i, sign;
@@ -530,11 +504,67 @@ private:
 		(*win).patient_controller1.disable();
 		(*win).auto_mode1.disable();
 		(*win).eye_mode1.disable();
-		(*win).focus_point1.disable();
-		(*win).record_position1.disable();
-		(*win).remove_record1.disable();
+		(*win).focus_n1.disable();
+		(*win).focus_f1.disable();
+		(*win).position1.disable();
 	}
 
+	void change_value_in_point(int8_t sign)
+	{
+		switch (set_point)
+		{
+		case 7:
+			Temp_P.focus_n += sign*EYE_DIV_VALUE_METRIC;
+			(*Temp_D).t_eye.od_n.value = Temp_P.focus_n;
+			(*win).focus_n1.strcpy_center_text(Temp_P.focus_n, POINT_AFTER_COMMA);
+			break;
+		case 8:
+			Temp_P.focus_f += sign*EYE_DIV_VALUE_METRIC;
+			(*Temp_D).t_eye.od_f.value = Temp_P.focus_f;
+			(*win).focus_f1.strcpy_center_text(Temp_P.focus_f, POINT_AFTER_COMMA);
+			break;
+		case 9:
+			Temp_P.position += sign*EYE_DIV_VALUE_METRIC;
+			(*win).position1.strcpy_center_text(Temp_P.position, POINT_AFTER_COMMA);
+			break;
+		default:
+			break;
+		}
+		(*win).update();
+
+	}
+	void save_all()
+	{
+		if (Temp_P.eye == Temp_P.const_eye_os)
+		{
+			(*Temp_D).t_eye.od_n.value = Temp_P.focus_n;
+			(*Temp_D).t_eye.od_f.value = Temp_P.focus_f;
+			(*Temp_D).t_eye.time_spend_od = Temp_P.timer_count;
+
+		}
+		else
+		{
+			(*Temp_D).t_eye.os_n.value = Temp_P.focus_n;
+			(*Temp_D).t_eye.os_f.value = Temp_P.focus_f;
+			(*Temp_D).t_eye.time_spend_os = Temp_P.timer_count;
+
+		}
+	}
+	void load_all()
+	{
+		if (Temp_P.eye == Temp_P.const_eye_os)
+		{
+			Temp_P.focus_n = (*Temp_D).t_eye.os_n.value;
+			Temp_P.focus_f = (*Temp_D).t_eye.os_f.value;
+			Temp_P.timer_count = (*Temp_D).t_eye.time_spend_os;
+		}
+		else
+		{
+			Temp_P.focus_n = (*Temp_D).t_eye.od_n.value;
+			Temp_P.focus_f = (*Temp_D).t_eye.od_f.value;
+			Temp_P.timer_count = (*Temp_D).t_eye.time_spend_od;
+		}
+	}
 };
 
 

@@ -191,7 +191,7 @@ public:
 	};
 	void action_buttonF2()
 	{
-		set_jump(id_wind_oper);
+		set_jump(id_wind_train);
 	};
 	void action_buttonF3()
 	{

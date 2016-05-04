@@ -5,7 +5,7 @@
 #include"cntrlsubgroup.h"
 #include"database_structure.h"
 #define POINT_AFTER_COMMA 2
-#define OFSET_FOR_INFORMATION_ON_DISPLEY 17
+#define OFFSET_FOR_INFORMATION_ON_DISPLEY 17
 class Win
 {
 public:

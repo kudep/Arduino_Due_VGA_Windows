@@ -51,13 +51,15 @@ struct	Eye_Train_Parameters
 
 struct	Eye_Train
 {
-	float time_od = 0;
+	int time_od = 0;
+	int time_spend_od = 0;
 	Eye_Train_Parameters od_n;//ближнии параметры глаза
 	Eye_Train_Parameters od_f;//дальнии параметры глаза
-	float time_os = 0;
+	int time_os = 0;
+	int time_spend_os = 0;
 	Eye_Train_Parameters os_n;//ближнии параметры глаза
 	Eye_Train_Parameters os_f;//дальнии параметры глаза
-	float time = 0;
+	int time = 0;
 	void reset()
 	{
 		time_od = 0;
