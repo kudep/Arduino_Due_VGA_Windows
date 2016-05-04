@@ -22,16 +22,23 @@ namespace Convert_1251_to_demical
             textBox2.Text = "{";
             char [] split = textBox1.Text.ToCharArray();
             int count = 1;
-            foreach (char ch in split)
-            {
-                count++;
-                int num = Convert.ToInt16(ch);
-                if (num>=1040)
-                    textBox2.Text += (Convert.ToInt16(ch)-848).ToString();
-                else
-                    textBox2.Text += Convert.ToInt16(ch).ToString();
-                textBox2.Text += ", ";
-            }
+            int count_leng=split.GetLength(0);
+            if ((checkBox2.Checked) && (count_leng < numericUpDown1.Value-1))
+                for (int i = Convert.ToInt16(numericUpDown1.Value) - count_leng-1; i > 0;i-- )
+                {
+                    textBox2.Text += "32, ";
+                    count++;
+                }
+                    foreach (char ch in split)
+                    {
+                        count++;
+                        int num = Convert.ToInt16(ch);
+                        if (num >= 1040)
+                            textBox2.Text += (Convert.ToInt16(ch) - 848).ToString();
+                        else
+                            textBox2.Text += Convert.ToInt16(ch).ToString();
+                        textBox2.Text += ", ";
+                    }
             textBox2.Text += "0};//";
             textBox2.Text += textBox1.Text;
             textBox3.Text = count.ToString();
@@ -74,6 +81,11 @@ namespace Convert_1251_to_demical
             textBox4.Text += " ; //";
             textBox4.Text += " New str";
             textBox4.Text += "\r\n";
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

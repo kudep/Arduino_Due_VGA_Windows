@@ -3,7 +3,7 @@
 
 #include "stack.h"
 
-#define DATA_STRING_LENGTH 24
+#define DATA_STRING_LENGTH 20
 
 struct	Eye_Meas_Parameters
 {

@@ -4,28 +4,28 @@
 Win_Data::Win_Data() :
 
 //1 string
-data0(Color_Style(information), Metric_Parameters(1, 5, 13, 1)),
-data1(Color_Style(interactive), Metric_Parameters(15, 5, DATA_STRING_LENGTH, 1)),
+data0(Color_Style(information), Metric_Parameters(1, 5, OFSET_FOR_INFORMATION_ON_DISPLEY, 1)),
+data1(Color_Style(interactive), Metric_Parameters(OFSET_FOR_INFORMATION_ON_DISPLEY+2, 5, DATA_STRING_LENGTH, 1)),
 //1 string
-time0(Color_Style(information), Metric_Parameters(1, 7, 13, 1)),
-time1(Color_Style(interactive), Metric_Parameters(15, 7, DATA_STRING_LENGTH, 1)),
+time0(Color_Style(information), Metric_Parameters(1, 7, OFSET_FOR_INFORMATION_ON_DISPLEY, 1)),
+time1(Color_Style(interactive), Metric_Parameters(OFSET_FOR_INFORMATION_ON_DISPLEY+2, 7, DATA_STRING_LENGTH, 1)),
 
 //2 string
-surname0(Color_Style(information), Metric_Parameters(1, 9, 13, 1)),
-surname1(Color_Style(interactive), Metric_Parameters(15, 9, DATA_STRING_LENGTH, 1)),
+surname0(Color_Style(information), Metric_Parameters(1, 9, OFSET_FOR_INFORMATION_ON_DISPLEY, 1)),
+surname1(Color_Style(interactive), Metric_Parameters(OFSET_FOR_INFORMATION_ON_DISPLEY+2, 9, DATA_STRING_LENGTH, 1)),
 
 //3 string
-name0(Color_Style(information), Metric_Parameters(1, 11, 13, 1)),
-name1(Color_Style(interactive), Metric_Parameters(15, 11, DATA_STRING_LENGTH, 1)),
+name0(Color_Style(information), Metric_Parameters(1, 11, OFSET_FOR_INFORMATION_ON_DISPLEY, 1)),
+name1(Color_Style(interactive), Metric_Parameters(OFSET_FOR_INFORMATION_ON_DISPLEY+2, 11, DATA_STRING_LENGTH, 1)),
 
 //4 string
-middle_name0(Color_Style(information), Metric_Parameters(1, 13, 13, 1)),
-middle_name1(Color_Style(interactive), Metric_Parameters(15, 13, DATA_STRING_LENGTH, 1)),
+middle_name0(Color_Style(information), Metric_Parameters(1, 13, OFSET_FOR_INFORMATION_ON_DISPLEY, 1)),
+middle_name1(Color_Style(interactive), Metric_Parameters(OFSET_FOR_INFORMATION_ON_DISPLEY+2, 13, DATA_STRING_LENGTH, 1)),
 
 
 //5 string
-book_numb0(Color_Style(information), Metric_Parameters(1, 15, 13, 1)),
-book_numb1(Color_Style(interactive), Metric_Parameters(15, 15, DATA_STRING_LENGTH, 1)),
+book_numb0(Color_Style(information), Metric_Parameters(1, 15, OFSET_FOR_INFORMATION_ON_DISPLEY, 1)),
+book_numb1(Color_Style(interactive), Metric_Parameters(OFSET_FOR_INFORMATION_ON_DISPLEY+2, 15, DATA_STRING_LENGTH, 1)),
 
 //Extend button
 extend_button0(Color_Style(interactive), Metric_Parameters(8, 28, 8, 1), "F1"),

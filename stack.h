@@ -31,7 +31,7 @@ public:
 	}
 	void pop()
 	{
-		if (size > 0)
+		if (size > 1)
 		{
 			Stack_Point *temp = a;
 			a = a->prev;

@@ -84,51 +84,51 @@ private:
 	void windows()
 	{
 		//Meas. title
-		char str_meas_title[13] = { 200, 199, 204, 197, 208, 197, 205, 200, 197, 0 };//ИЗМЕРЕНИЕ
+		char str_meas_title[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 200, 199, 204, 197, 208, 197, 205, 200, 197, 0 };//ИЗМЕРЕНИЕ
 		meas_title.strcpy_text(str_meas_title);
 
 		//1 string
-		char str_choose_m_os0[13] = { 32, 32, 32, 32, 32, 32, 32, 32, 49, 46, 79, 83, 0 };//        1.OS
+		char str_choose_m_os0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 49, 46, 200, 231, 236, 229, 240, 229, 237, 232, 229, 32, 79, 83, 0 };//1.Измерение OS
 		choose_m_os0.strcpy_text(str_choose_m_os0);
 		choose_m_os1.strcpy_center_text("");
 
 
 		//2 string
-		char str_choose_m_od0[13] = { 32, 32, 32, 32, 32, 32, 32, 32, 50, 46, 79, 68, 0 };//        2.OD
+		char str_choose_m_od0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 50, 46, 200, 231, 236, 229, 240, 229, 237, 232, 229, 32, 79, 68, 0 };//2.Измерение OD
 		choose_m_od0.strcpy_text(str_choose_m_od0);
 		choose_m_od1.strcpy_center_text("");
 
 		//Train. title
-		char str_train_title[13] = { 210, 208, 197, 205, 200, 208, 206, 194, 202, 192, 0 };//ТРЕНИРОВКА
+		char str_train_title[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 210, 208, 197, 205, 200, 208, 206, 194, 202, 192, 0 };//ТРЕНИРОВКА
 		train_title.strcpy_text(str_train_title);
 
 		//3 string
-		char str_time_t_os0[13] = { 32, 32, 51, 46, 194, 240, 229, 236, 255, 32, 79, 83, 0 };//  3.Время OS
+		char str_time_t_os0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 51, 46, 194, 240, 229, 236, 255, 32, 242, 240, 229, 237, 46, 32, 79, 83, 0 };//3.Время трен. OS
 		time_t_os0.strcpy_text(str_time_t_os0);
 		time_t_os1.strcpy_center_text("0");
 
 		//4 string
-		char str_os_n0[13] = { 32, 32, 32, 52, 46, 32, 193, 235, 232, 230, 237, 46, 0 };//   4. Ближн.
+		char str_os_n0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 52, 46, 193, 235, 232, 230, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//4.Ближняя грань
 		os_n0.strcpy_text(str_os_n0);
 		os_n1.strcpy_center_text("0");
 
 		//5 string
-		char str_os_f0[13] = { 32, 32, 32, 32, 53, 46, 196, 224, 235, 252, 237, 46, 0 };//    5.Дальн.
+		char str_os_f0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 53, 46, 196, 224, 235, 252, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//5.Дальняя грань
 		os_f0.strcpy_text(str_os_f0);
 		os_f1.strcpy_center_text("0");
 
 		//6 string
-		char str_time_t_od0[13] = { 32, 32, 54, 46, 194, 240, 229, 236, 255, 32, 79, 68, 0 };//  6.Время OD
+		char str_time_t_od0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 54, 46, 194, 240, 229, 236, 255, 32, 242, 240, 229, 237, 46, 32, 79, 68, 0 };//6.Время трен. OD
 		time_t_od0.strcpy_text(str_time_t_od0);
 		time_t_od1.strcpy_center_text("0");
 
 		//7 string
-		char str_od_n0[13] = { 32, 32, 32, 55, 46, 32, 193, 235, 232, 230, 237, 46, 0 };//   7. Ближн.
+		char str_od_n0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 55, 46, 193, 235, 232, 230, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//7.Ближняя грань
 		od_n0.strcpy_text(str_od_n0);
 		od_n1.strcpy_center_text("0");
 
 		//8 string
-		char str_od_f0[13] = { 32, 32, 32, 32, 56, 46, 196, 224, 235, 252, 237, 46, 0 };//    8.Дальн.
+		char str_od_f0[OFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 56, 46, 196, 224, 235, 252, 237, 255, 255, 32, 227, 240, 224, 237, 252, 0 };//8.Дальняя грань
 		od_f0.strcpy_text(str_od_f0);
 		od_f1.strcpy_center_text("0");
 
