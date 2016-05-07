@@ -60,9 +60,24 @@ public:
 	CntrlSubGroup od_f2;
 	CntrlSubGroup od_f3;
 
+	//7 string
+	CntrlSubGroup tr0;
+	CntrlSubGroup tr1;
+	CntrlSubGroup tr2;
+	CntrlSubGroup tr3;
+
 	//8 string
-	CntrlSubGroup timer0;
-	CntrlSubGroup timer1;
+	CntrlSubGroup tr_os0;
+	CntrlSubGroup tr_os1;
+	CntrlSubGroup tr_os2;
+	CntrlSubGroup tr_os3;
+
+	//9 string
+	CntrlSubGroup tr_od0;
+	CntrlSubGroup tr_od1;
+	CntrlSubGroup tr_od2;
+	CntrlSubGroup tr_od3;
+
 
 	//Extend button
 	CntrlSubGroup extend_button0;
@@ -80,8 +95,8 @@ private:
 	void windows()
 	{
 
-		char str_os0[] = "OS";//OS
-		os0.strcpy_text(str_os0);
+		//OS
+		os0.strcpy_text("OS");
 		char str_o1[8] = { 209, 240, 229, 228, 237, 229, 229, 0 };//Среднее
 		os1.strcpy_text(str_o1);
 		char str_o2[8] = { 207, 238, 227, 240, 229, 248, 46, 0 };//Погреш.
@@ -96,20 +111,37 @@ private:
 		os_f0.strcpy_text(str_f0);
 
 
-		char str_od0[] = "OD";//OD
-		od0.strcpy_text(str_od0);
+		//OD
+		od0.strcpy_text("OD");
 
 		od1.strcpy_text(str_o1);
 		od2.strcpy_text(str_o2);
 		od3.strcpy_text(str_o3);
 
 		od_n0.strcpy_text(str_n0);
-
 		od_f0.strcpy_text(str_f0);
 
-		//6 string
-		char str_timer0[13] = { 194, 240, 229, 236, 255, 0 };//Время
-		timer0.strcpy_text(str_timer0);
+		char str_tr0[8] = { 210, 240, 229, 237, 232, 240, 46, 0 };//Тренир.
+		char str_tr1[8] = { 193, 235, 232, 230, 237, 46, 0 };//Ближн.
+		char str_tr2[8] = { 196, 224, 235, 252, 237, 46, 0 };//Дальн.
+		char str_tr3[8] = { 194, 240, 229, 236, 255, 0 };//Время
+		tr0.strcpy_text(str_tr0);
+		tr1.strcpy_text(str_tr1);
+		tr2.strcpy_text(str_tr2);
+		tr3.strcpy_text(str_tr3);
+
+		//8 string
+		tr_os0.strcpy_text("OS");
+		tr_os1.strcpy_text("");
+		tr_os2.strcpy_text("");
+		tr_os3.strcpy_text("");
+		
+		//9 string
+		tr_od0.strcpy_text("OD");
+		tr_od1.strcpy_text("");
+		tr_od2.strcpy_text("");
+		tr_od3.strcpy_text("");
+
 
 		char str_extend_button_description0[8] = { 207, 238, 236, 238, 249, 252, 0 };//Помощь
 		extend_button_description0.strcpy_center_text(str_extend_button_description0);
@@ -123,7 +155,7 @@ private:
 
 	}
 
-	CntrlSubGroup* parr[36] =
+	CntrlSubGroup* parr[46] =
 	{
 		&os0, &os1, &os2, &os3,
 		&os_n0, &os_n1, &os_n2, &os_n3,
@@ -131,7 +163,9 @@ private:
 		&od0, &od1, &od2, &od3,
 		&od_n0, &od_n1, &od_n2, &od_n3,
 		&od_f0, &od_f1, &od_f2, &od_f3,
-		&timer0, &timer1,
+		&tr0, &tr1, &tr2, &tr3, &tr_os0,
+		&tr_os1, &tr_os2, &tr_os3, &tr_od0,
+		&tr_od1, &tr_od2, &tr_od3,
 		&extend_button0, &extend_button1, 
 		&extend_button2,&extend_button3, 
 		&extend_button4, 
@@ -179,8 +213,48 @@ public:
 		(*win).od_f1.strcpy_center_text((*Temp_D).m_eye.od_f.seq.average(), POINT_AFTER_COMMA);
 		(*win).od_f2.strcpy_center_text((*Temp_D).m_eye.od_f.seq.error(), POINT_AFTER_COMMA);
 		(*win).od_f3.strcpy_center_text((*Temp_D).m_eye.od_f.seq.getsize());
-		(*win).timer1.strcpy_center_text(get_time((*Temp_D).t_eye.time));
 
+		(*win).tr_os1.strcpy_center_text((*Temp_D).t_eye.os_n.seq.average(), POINT_AFTER_COMMA);
+		(*win).tr_os2.strcpy_center_text((*Temp_D).t_eye.os_f.seq.average(), POINT_AFTER_COMMA);
+		(*win).tr_os3.strcpy_center_text(get_time((*Temp_D).t_eye.time_os));
+		(*win).tr_od1.strcpy_center_text((*Temp_D).t_eye.od_n.seq.average(), POINT_AFTER_COMMA);
+		(*win).tr_od2.strcpy_center_text((*Temp_D).t_eye.od_f.seq.average(), POINT_AFTER_COMMA);
+		(*win).tr_od3.strcpy_center_text(get_time((*Temp_D).t_eye.time_od));
+		if ((*Temp_D).t_eye.os_n.seq.getsize() < 3)
+		{
+			(*win).tr_os1.enable();
+		}
+		else
+		{
+			(*win).tr_os1.disable();
+		}
+
+		if ((*Temp_D).t_eye.os_f.seq.getsize()<3)
+		{
+			(*win).tr_os2.enable();
+		}
+		else
+		{
+			(*win).tr_os2.disable();
+		}
+
+		if ((*Temp_D).t_eye.od_n.seq.getsize()<3)
+		{
+			(*win).tr_od1.enable();
+		}			   
+		else		   
+		{			   
+			(*win).tr_od1.disable();
+		}
+
+		if ((*Temp_D).t_eye.od_f.seq.getsize()<3)
+		{
+			(*win).tr_od2.enable();
+		}
+		else
+		{
+			(*win).tr_od2.disable();
+		}
 		(*win).refresh();
 	}
 

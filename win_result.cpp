@@ -27,21 +27,35 @@ od1(Color_Style(information), Metric_Parameters(11, 11, 8, 1)),
 od2(Color_Style(information), Metric_Parameters(20, 11, 8, 1)),
 od3(Color_Style(information), Metric_Parameters(29, 11, 8, 1)),
 
-//4 string
+//5 string
 od_n0(Color_Style(information), Metric_Parameters(2, 13, 8, 1)),
 od_n1(Color_Style(interactive), Metric_Parameters(11, 13, 8, 1),""),
 od_n2(Color_Style(interactive), Metric_Parameters(20, 13, 8, 1),""),
 od_n3(Color_Style(interactive), Metric_Parameters(29, 13, 8, 1),""),
 
-//5 string
+//6 string
 od_f0(Color_Style(information), Metric_Parameters(2, 15, 8, 1)),
 od_f1(Color_Style(interactive), Metric_Parameters(11, 15, 8, 1),""),
 od_f2(Color_Style(interactive), Metric_Parameters(20, 15, 8, 1),""),
 od_f3(Color_Style(interactive), Metric_Parameters(29, 15, 8, 1), ""),
 
-//6 string
-timer0(Color_Style(information), Metric_Parameters(2, 19, 8, 1)),
-timer1(Color_Style(interactive), Metric_Parameters(11, 19, 8, 1), ""),
+//7 string
+tr0(Color_Style(information), Metric_Parameters( 2, 17, 8, 1)),
+tr1(Color_Style(information), Metric_Parameters(11, 17, 8, 1), ""),
+tr2(Color_Style(information), Metric_Parameters(20, 17, 8, 1), ""),
+tr3(Color_Style(information), Metric_Parameters(29, 17, 8, 1), ""),
+
+//8 string
+tr_os0(Color_Style(information), Metric_Parameters( 2, 19, 8, 1)),
+tr_os1(Color_Style(interactive), Metric_Parameters(11, 19, 8, 1), ""),
+tr_os2(Color_Style(interactive), Metric_Parameters(20, 19, 8, 1), ""),
+tr_os3(Color_Style(interactive), Metric_Parameters(29, 19, 8, 1), ""),
+
+//9 string
+tr_od0(Color_Style(information), Metric_Parameters( 2, 21, 8, 1)),
+tr_od1(Color_Style(interactive), Metric_Parameters(11, 21, 8, 1), ""),
+tr_od2(Color_Style(interactive), Metric_Parameters(20, 21, 8, 1), ""),
+tr_od3(Color_Style(interactive), Metric_Parameters(29, 21, 8, 1), ""),
 
 
 //Extend button

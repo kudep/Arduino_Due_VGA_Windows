@@ -104,7 +104,9 @@ public:
 	};
 	~Win_Help_Handler()
 	{
+		//Serial.println("Start kill Win_Help_Handler");
 		delete win;
+		//Serial.println("Finish kill Win_Help_Handler");
 	};
 
 	void init()

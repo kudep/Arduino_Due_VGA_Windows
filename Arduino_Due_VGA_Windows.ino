@@ -12,11 +12,10 @@
 #include <SD.h>
 //#include"data_manager.h"
 
-Keyboard_Handler* pw;
 
 // Require keyboard control library
 #include <KeyboardController.h>
-
+//
 extern char cp1251_en_to_ru[];
 
 // Initialize USB Controller
@@ -25,6 +24,14 @@ USBHost usb;
 // Attach keyboard controller to USB
 KeyboardController keyboard(usb);
 
+Keyboard_Handler* pw;
+
+Temporary_Data Temp_D;
+
+Data_Manager Data_Mngr(Temp_D);
+
+CLongTimer TMR1(1000);
+int count = 1;
 
 // This function intercepts key press
 void keyPressed()
@@ -130,23 +137,10 @@ void Process()
 	}
 
 	change_wind();
+
 	// getKey() returns the ASCII translation of OEM key
 	// combined with modifiers.cp1251_en_to_ru[keyboard.getKey()]);
 }
-
-int count = 0;
-Keyboard_Handler* pwh;
-Keyboard_Handler* pwd;
-Keyboard_Handler* pwp;
-Keyboard_Handler* pwo;
-Keyboard_Handler* pwt;
-Keyboard_Handler* pwr;
-Keyboard_Handler* pwm;
-Temporary_Data Temp_D;
-
-Data_Manager Data_Mngr(Temp_D);
-
-CLongTimer TMR1(1000);
 
 void change_wind()
 {
@@ -160,10 +154,7 @@ void change_wind()
 		{
 		case id_wind_help:
 			Serial.println("Go to help");
-			delay(1000);
-			delete[]pw;
-			Serial.println("Go to help");
-			delay(1000);
+			delete pw;
 			pw = new Win_Help_Handler(&Temp_D, Data_Mngr);
 			if (handler_num != id_wind_undifine) 
 				(*pw).set_back_handler(handler_num);
@@ -172,32 +163,33 @@ void change_wind()
 			break;
 		case id_wind_data:
 			Serial.println("Go to data");
-			delete[]pw;
+			delete pw;
 			pw = new Win_Data_Handler(&Temp_D, Data_Mngr);
 			break;
 		case id_wind_option:
 			Serial.println("Go to option");
-			delete[]pw;
+			delete pw;
 			pw = new Win_Option_Handler(&Temp_D, Data_Mngr);
 			break;
 		case id_wind_oper:
 			Serial.println("Go to oper");
-			delete[]pw;
+			delete pw;
 			pw = new Win_Oper_Handler(&Temp_D, Data_Mngr);
 			break;
 		case id_wind_train:
 			Serial.println("Go to train");
-			delete[]pw;
+			delete pw;
 			pw = new Win_Train_Handler(&Temp_D, Data_Mngr);
 			break;
 		case id_wind_result:
 			Serial.println("Go to result");
-			pw = pwr;
+			delete pw;
+			pw = new Win_Result_Handler(&Temp_D, Data_Mngr);;
 			break;
 
 		case id_wind_end:
 			Serial.println("Go to mess of the end");
-			delete[]pw;
+			delete pw;
 			pw = new Win_Mess_Handler(&Temp_D, Data_Mngr);
 			(*pw).set_back_handler(id_wind_data);
 			(*pw).push_message(id_wind_end);
@@ -205,9 +197,8 @@ void change_wind()
 
 		case id_wind_error_verif_data_mngr:
 			Serial.println("Go to mess of the end");
-			if (pw != pwm)
+			if (false)
 			{
-				pw = pwm;
 				(*pw).set_back_handler(handler_num);
 			}
 			(*pw).push_message(id_wind_error_verif_data_mngr);
@@ -230,18 +221,10 @@ void setup()
 	Serial.begin(9600);
 	VGA.begin(320, 240, VGA_COLOUR);
 
-	//pwh = new Win_Help_Handler(&Temp_D, Data_Mngr);
-	//pwd = new Win_Data_Handler(&Temp_D, Data_Mngr);
-	//pwp = new Win_Option_Handler(&Temp_D, Data_Mngr);
-	//pwo = new Win_Oper_Handler(&Temp_D, Data_Mngr);
-	//pwt = new Win_Train_Handler(&Temp_D, Data_Mngr);
-	//pwr = new Win_Result_Handler(&Temp_D, Data_Mngr);
-	//pwm = new Win_Mess_Handler(&Temp_D, Data_Mngr);
-
 	TMR1.event(refresh_timer);
 	TMR1.start();
 
-	pw = new Win_Data_Handler(&Temp_D, Data_Mngr);
+	pw = new Win_Data_Handler(&Temp_D, Data_Mngr);//This window is first
 	(*pw).init();
 }
 const int deley_t = 100;
@@ -253,10 +236,38 @@ void loop()
 	usb.Task();
 
 	TMR1.tick();
-	//(*pw).action_buttonF3();
-	//change_wind();
-	//Serial.print("NUm loop "); 
-	//Serial.println(i_Loop);
-	//i_Loop++;
-	
+
+
+	//count++;
+	//Serial.println(count);
+	////delay(100);
+	//(*pw).finit();
+	//delete pw;
+	//pw = new Win_Help_Handler(&Temp_D, Data_Mngr);
+	//(*pw).init();
+	//(*pw).finit();
+	//delete pw;
+	//pw = new Win_Data_Handler(&Temp_D, Data_Mngr);
+	//(*pw).init();
+	//(*pw).finit();
+	//delete pw;
+	//pw = new Win_Option_Handler(&Temp_D, Data_Mngr);
+	//(*pw).init();
+	//(*pw).finit();
+	//delete pw;
+	//pw = new Win_Oper_Handler(&Temp_D, Data_Mngr);
+	//(*pw).init();
+	//(*pw).finit();
+	//delete pw;
+	//pw = new Win_Train_Handler(&Temp_D, Data_Mngr);
+	//(*pw).init();
+	//(*pw).finit();
+	//delete pw;
+	//pw = new Win_Result_Handler(&Temp_D, Data_Mngr);
+	//(*pw).init();
+	//(*pw).finit();
+	//delete pw;
+	//pw = new Win_Mess_Handler(&Temp_D, Data_Mngr);
+
+	//(*pw).init();
 }

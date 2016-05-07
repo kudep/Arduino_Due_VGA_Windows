@@ -10,7 +10,7 @@ class Keyboard_Handler
 public:
 	Keyboard_Handler();
 	//Keyboard_Handler(Data_Manager& Data_Mngr){}
-	~Keyboard_Handler();
+	virtual ~Keyboard_Handler();
 	virtual void init()
 	{
 		reset_jump();
