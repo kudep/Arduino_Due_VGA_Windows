@@ -243,6 +243,8 @@ public:
 	{
 		Keyboard_Handler::init();
 
+		load();
+
 		vision = true;
 		(*win).choose_m_os1.strcpy_center_text(Temp_P.get_choose_m_os());
 		(*win).choose_m_od1.strcpy_center_text(Temp_P.get_choose_m_od());
@@ -259,19 +261,18 @@ public:
 	{
 		Keyboard_Handler::finit();
 
+		save();
+
 		set_point = 0;
 
 		vision = false;
 
-		(*Temp_D).t_eye.time_spend_od = (*Temp_D).t_eye.time_os;
-		(*Temp_D).t_eye.time_spend_os = (*Temp_D).t_eye.time_od;
 	}
 	void action_button1()
 	{
 		disable_buttons();
 
 		Temp_P.change_choose_m_os();
-		(*Temp_D).m_eye.os = Temp_P.choose_m_os;
 
 		(*win).choose_m_os1.strcpy_center_text(Temp_P.get_choose_m_os());
 
@@ -285,7 +286,6 @@ public:
 		disable_buttons();
 
 		Temp_P.change_choose_m_od();
-		(*Temp_D).m_eye.os = Temp_P.choose_m_od;
 
 		(*win).choose_m_od1.strcpy_center_text(Temp_P.get_choose_m_od());
 
@@ -356,7 +356,14 @@ public:
 
 	void action_buttonF3()
 	{
-		set_jump(id_wind_oper);
+		save();
+		if ((*Temp_D).m_eye.os || (*Temp_D).m_eye.od)
+			set_jump(id_wind_oper);
+		else
+		if ((*Temp_D).t_eye.setup_time_os != 0 || (*Temp_D).t_eye.setup_time_od != 0)
+			set_jump(id_wind_train);
+		else
+			set_jump(id_wind_error_empty_wind);
 	};
 
 
@@ -437,17 +444,14 @@ private:
 			{
 				Temp_P.time_t_os = 0;
 			}
-			(*Temp_D).t_eye.time_os = Temp_P.time_t_os;
-			(*win).time_t_os1.strcpy_center_text(Temp_P.time_t_os, POINT_AFTER_COMMA);
+			(*win).time_t_os1.strcpy_center_text(get_time(Temp_P.time_t_os));
 			break;
 		case 4:
 			Temp_P.os_n += sign*EYE_DIV_VALUE_METRIC;
-			(*Temp_D).t_eye.os_n.value = Temp_P.os_n;
 			(*win).os_n1.strcpy_center_text(Temp_P.os_n, POINT_AFTER_COMMA);
 			break;
 		case 5:
 			Temp_P.os_f += sign*EYE_DIV_VALUE_METRIC;
-			(*Temp_D).t_eye.os_n.value = Temp_P.os_f;
 			(*win).os_f1.strcpy_center_text(Temp_P.os_f, POINT_AFTER_COMMA);
 			break;
 		case 6:
@@ -456,17 +460,14 @@ private:
 			{
 				Temp_P.time_t_od = 0;
 			}
-			(*Temp_D).t_eye.time_od = Temp_P.time_t_od;
-			(*win).time_t_od1.strcpy_center_text(Temp_P.time_t_od, POINT_AFTER_COMMA);
+			(*win).time_t_od1.strcpy_center_text(get_time(Temp_P.time_t_od));
 			break;
 		case 7:
 			Temp_P.od_n += sign*EYE_DIV_VALUE_METRIC;
-			(*Temp_D).t_eye.od_n.value = Temp_P.od_n;
 			(*win).od_n1.strcpy_center_text(Temp_P.od_n, POINT_AFTER_COMMA);
 			break;
 		case 8:
 			Temp_P.od_f += sign*EYE_DIV_VALUE_METRIC;
-			(*Temp_D).t_eye.od_n.value = Temp_P.od_f;
 			(*win).od_f1.strcpy_center_text(Temp_P.od_f, POINT_AFTER_COMMA);
 			break;
 		default:
@@ -475,7 +476,33 @@ private:
 		(*win).update();
 
 	}
+	void load()
+	{
 
+		Temp_P.choose_m_os = (*Temp_D).m_eye.os;
+		Temp_P.choose_m_od = (*Temp_D).m_eye.od;
+
+		Temp_P.time_t_os = (*Temp_D).t_eye.setup_time_os;
+		Temp_P.time_t_od = (*Temp_D).t_eye.setup_time_od;
+
+		Temp_P.os_n = (*Temp_D).t_eye.os_n.setup_value;
+		Temp_P.os_f = (*Temp_D).t_eye.os_f.setup_value;
+
+		Temp_P.od_n = (*Temp_D).t_eye.od_n.setup_value;
+		Temp_P.od_f = (*Temp_D).t_eye.od_f.setup_value;
+	}
+	void save()
+	{
+
+		(*Temp_D).m_eye.os = Temp_P.choose_m_os;
+		(*Temp_D).m_eye.od = Temp_P.choose_m_od;
+		(*Temp_D).t_eye.setup_time_os = Temp_P.time_t_os;
+		(*Temp_D).t_eye.setup_time_od = Temp_P.time_t_od;
+		(*Temp_D).t_eye.os_n.setup_value = Temp_P.os_n;
+		(*Temp_D).t_eye.os_f.setup_value = Temp_P.os_f;
+		(*Temp_D).t_eye.od_n.setup_value = Temp_P.od_n;
+		(*Temp_D).t_eye.od_f.setup_value = Temp_P.od_f;
+	}
 };
 
 

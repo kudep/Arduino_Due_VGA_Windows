@@ -216,10 +216,10 @@ public:
 
 		(*win).tr_os1.strcpy_center_text((*Temp_D).t_eye.os_n.seq.average(), POINT_AFTER_COMMA);
 		(*win).tr_os2.strcpy_center_text((*Temp_D).t_eye.os_f.seq.average(), POINT_AFTER_COMMA);
-		(*win).tr_os3.strcpy_center_text(get_time((*Temp_D).t_eye.time_os));
+		(*win).tr_os3.strcpy_center_text(get_time((*Temp_D).t_eye.setup_time_os - (*Temp_D).t_eye.time_spend_os));
 		(*win).tr_od1.strcpy_center_text((*Temp_D).t_eye.od_n.seq.average(), POINT_AFTER_COMMA);
 		(*win).tr_od2.strcpy_center_text((*Temp_D).t_eye.od_f.seq.average(), POINT_AFTER_COMMA);
-		(*win).tr_od3.strcpy_center_text(get_time((*Temp_D).t_eye.time_od));
+		(*win).tr_od3.strcpy_center_text(get_time((*Temp_D).t_eye.setup_time_od-(*Temp_D).t_eye.time_spend_od));
 		if ((*Temp_D).t_eye.os_n.seq.getsize() < 3)
 		{
 			(*win).tr_os1.enable();
@@ -265,7 +265,10 @@ public:
 	};
 	void action_buttonF2()
 	{
-		set_jump(id_wind_train);
+		if ((*Temp_D).t_eye.setup_time_os != 0 || (*Temp_D).t_eye.setup_time_od != 0)
+			set_jump(id_wind_train);
+		else
+			set_jump(id_wind_oper);
 	};
 	void action_buttonF3()
 	{

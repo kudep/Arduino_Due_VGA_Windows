@@ -232,10 +232,11 @@ const int deley_t = 100;
 int i_Loop = 0;
 void loop()
 {
+	TMR1.tick();
+
 	// Process USB tasks
 	usb.Task();
 
-	TMR1.tick();
 
 
 	//count++;

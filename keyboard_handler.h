@@ -3,7 +3,7 @@
 #include"data_manager.h"
 #include <VGA.h>
 
-enum id_wind { id_wind_undifine, id_wind_help, id_wind_data, id_wind_option, id_wind_oper, id_wind_train, id_wind_result, id_wind_end, id_wind_error_verif_data_mngr };
+enum id_wind { id_wind_undifine, id_wind_help, id_wind_data, id_wind_option, id_wind_oper, id_wind_train, id_wind_result, id_wind_end, id_wind_error_verif_data_mngr, id_wind_error_empty_wind };
 
 class Keyboard_Handler
 {
@@ -38,8 +38,9 @@ public:
 
 	virtual void action_button_left_point(){};
 	virtual void action_button_rigth_point(){};
-	void refresh_timer()
+	virtual void refresh_timer()
 	{
+
 		//if ((*Data_Mngr).verification())
 		//{
 		//	return;

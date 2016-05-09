@@ -170,9 +170,11 @@ private:
 
 struct Temp_Param_Win_Train
 {
-	const bool const_eye_os = false;
-	const bool const_eye_od = true;
+	const bool const_eye_os = true;
+	const bool const_eye_od = false;
 	float start_position = 0;
+	bool os = false;
+	bool od = false;
 	bool viz = false;
 	bool ptnt_controller = false;
 	bool auto_mode = false;
@@ -185,6 +187,8 @@ struct Temp_Param_Win_Train
 	void reset()
 	{
 		start_position = 0;
+		os = false;
+		od = false;
 		viz = false;
 		ptnt_controller = false;
 		auto_mode = false;
@@ -251,7 +255,10 @@ struct Temp_Param_Win_Train
 	}
 	void change_eye()
 	{
-		eye = !eye;
+		if (os&&od)
+			eye = !eye;
+		else
+			eye = os;
 
 	}
 	const char* get_eye()
@@ -290,14 +297,20 @@ public:
 	{
 		Keyboard_Handler::init();
 
+		(*Temp_D).t_eye.time_spend_od = (*Temp_D).t_eye.setup_time_od;
+		(*Temp_D).t_eye.time_spend_os = (*Temp_D).t_eye.setup_time_os;
+
+		Temp_P.os = ((*Temp_D).t_eye.setup_time_os!=0);
+		Temp_P.od = ((*Temp_D).t_eye.setup_time_od != 0);
+		Temp_P.change_eye();
 		vision = true;
-		load_all();
+		load();
 		(*win).chang_viz1.strcpy_center_text(Temp_P.get_viz());
 		(*win).patient_controller1.strcpy_center_text(Temp_P.get_ptnt_controller());
 		(*win).auto_mode1.strcpy_center_text(Temp_P.get_auto_mode());
 		(*win).eye_mode1.strcpy_center_text(Temp_P.get_eye());
-		(*win).focus_n1.strcpy_center_text(Temp_P.focus_n);
-		(*win).focus_f1.strcpy_center_text(Temp_P.focus_f);
+		(*win).focus_n1.strcpy_center_text(Temp_P.focus_n, POINT_AFTER_COMMA);
+		(*win).focus_f1.strcpy_center_text(Temp_P.focus_f, POINT_AFTER_COMMA);
 		(*win).position1.strcpy_center_text(Temp_P.position, POINT_AFTER_COMMA);
 		(*win).timer1.strcpy_center_text(get_time(Temp_P.timer_count));
 		(*win).refresh();
@@ -306,7 +319,7 @@ public:
 	void finit()
 	{
 		Keyboard_Handler::finit();
-		save_all();
+		save();
 		set_point = 0;
 		vision = false;
 	}
@@ -367,15 +380,15 @@ public:
 	{
 		disable_buttons();
 
-		Temp_P.change_eye();
 
-		save_all();
-		load_all();
+		save();
+		Temp_P.change_eye();
+		load();
 
 		(*win).eye_mode1.strcpy_center_text(Temp_P.get_eye());
-		(*win).focus_n1.strcpy_center_text(Temp_P.focus_n);
-		(*win).focus_f1.strcpy_center_text(Temp_P.focus_f);
-		(*win).timer1.strcpy_center_text(Temp_P.timer_count);
+		(*win).focus_n1.strcpy_center_text(Temp_P.focus_n, POINT_AFTER_COMMA);
+		(*win).focus_f1.strcpy_center_text(Temp_P.focus_f, POINT_AFTER_COMMA);
+		(*win).timer1.strcpy_center_text(get_time(Temp_P.timer_count));
 
 		(*win).eye_mode1.enable();
 
@@ -419,7 +432,10 @@ public:
 
 	void action_buttonF2()
 	{
-		set_jump(id_wind_oper);
+		if ((*Temp_D).m_eye.os || (*Temp_D).m_eye.od)
+			set_jump(id_wind_oper);
+		else
+			set_jump(id_wind_option);
 	};
 
 
@@ -442,8 +458,10 @@ public:
 	void refresh_timer()
 	{
 		Keyboard_Handler::refresh_timer();
-
+		if (Temp_P.timer_count >= 0)
 			Temp_P.timer_count--;
+		else
+			Temp_P.timer_count = 0;
 
 			(*win).timer1.strcpy_center_text(get_time(Temp_P.timer_count));
 			if (vision)(*win).update();
@@ -533,24 +551,24 @@ private:
 		(*win).update();
 
 	}
-	void save_all()
+	void save()
 	{
 		if (Temp_P.eye == Temp_P.const_eye_os)
 		{
 			(*Temp_D).t_eye.od_n.value = Temp_P.focus_n;
 			(*Temp_D).t_eye.od_f.value = Temp_P.focus_f;
-			(*Temp_D).t_eye.time_spend_od = Temp_P.timer_count;
+			(*Temp_D).t_eye.time_spend_os = Temp_P.timer_count;
 
 		}
 		else
 		{
 			(*Temp_D).t_eye.os_n.value = Temp_P.focus_n;
 			(*Temp_D).t_eye.os_f.value = Temp_P.focus_f;
-			(*Temp_D).t_eye.time_spend_os = Temp_P.timer_count;
+			(*Temp_D).t_eye.time_spend_od = Temp_P.timer_count;
 
 		}
 	}
-	void load_all()
+	void load()
 	{
 		if (Temp_P.eye == Temp_P.const_eye_os)
 		{

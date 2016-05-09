@@ -39,6 +39,7 @@ struct	Eye_Meas
 
 struct	Eye_Train_Parameters
 {
+	float setup_value = 0;
 	float value = 0;
 	Stack seq;
 	char viz[3];
@@ -51,21 +52,23 @@ struct	Eye_Train_Parameters
 
 struct	Eye_Train
 {
-	int time_od = 0;
+	int setup_time_od = 0;
 	int time_spend_od = 0;
 	Eye_Train_Parameters od_n;//ближнии параметры глаза
 	Eye_Train_Parameters od_f;//дальнии параметры глаза
-	int time_os = 0;
+	int setup_time_os = 0;
 	int time_spend_os = 0;
 	Eye_Train_Parameters os_n;//ближнии параметры глаза
 	Eye_Train_Parameters os_f;//дальнии параметры глаза
 	int time = 0;
 	void reset()
 	{
-		time_od = 0;
+		setup_time_od = 0;
+		time_spend_od = 0;
 		od_n.reset();
 		od_f.reset();
-		time_os = 0;
+		setup_time_os = 0;
+		time_spend_os = 0;
 		os_n.reset();
 		os_f.reset();
 		time = 0;
@@ -103,7 +106,8 @@ struct	Temporary_Data
 	}
 	Eye_Meas_Parameters* access_meas_p(bool eye, bool focus)
 	{
-		if (eye)
+
+		if (eye&&m_eye.os&&m_eye.od)
 		{
 			if (focus)
 			{

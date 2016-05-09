@@ -185,6 +185,8 @@ struct Temp_Param_Win_Oper
 {
 	float start_position = 0;
 	char test_obj_info1[DATA_STRING_LENGTH];
+	bool os = false;
+	bool od = false;
 	bool viz = false;
 	bool ptnt_controller = false;
 	bool auto_mode = false;
@@ -195,9 +197,11 @@ struct Temp_Param_Win_Oper
 
 	void reset()
 	{
-		char _test_obj_info1[DATA_STRING_LENGTH] = { 200, 237, 244, 238, 240, 236, 46, 32, 238, 32, 238, 239, 242, 238, 242, 232, 239, 229, 0 };//Информ. о оптотипе
+		char _test_obj_info1[DATA_STRING_LENGTH] = { 200, 237, 244, 238, 240, 236, 46, 32, 238, 225, 32, 238, 239, 242, 238, 242, 232, 239, 229, 0 };//Информ. об оптотипе
 		strcpy(test_obj_info1, _test_obj_info1);
 		start_position = 0;
+		os = false;
+		od = false;
 		viz = false;
 		ptnt_controller = false;
 		auto_mode = false;
@@ -263,7 +267,10 @@ struct Temp_Param_Win_Oper
 	}
 	void change_eye()
 	{
-		eye = !eye;
+		if (os&&od)
+			eye = !eye;
+		else
+			eye = os;
 
 	}
 	const char* get_eye()
@@ -318,7 +325,9 @@ public:
 	void init()
 	{
 		Keyboard_Handler::init();
-
+		Temp_P.os = (*Temp_D).m_eye.os;
+		Temp_P.od = (*Temp_D).m_eye.od;
+		Temp_P.change_eye();
 		vision = true;
 		(*win).test_obj_info1.strcpy_center_text(Temp_P.test_obj_info1);
 		(*win).chang_viz1.strcpy_center_text(Temp_P.get_viz());
@@ -326,7 +335,7 @@ public:
 		(*win).auto_mode1.strcpy_center_text(Temp_P.get_auto_mode());
 		(*win).eye_mode1.strcpy_center_text(Temp_P.get_eye());
 		(*win).focus_point1.strcpy_center_text(Temp_P.get_focus_point());
-		(*win).record_count1.strcpy_center_text(Temp_P.record_count);
+		(*win).record_count1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.getsize());
 		(*win).record_position1.strcpy_center_text(Temp_P.record_position, POINT_AFTER_COMMA);
 		(*win).remove_record1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.top(), POINT_AFTER_COMMA);
 		(*win).refresh();
@@ -398,7 +407,7 @@ public:
 		Temp_P.change_eye();
 
 		(*win).eye_mode1.strcpy_center_text(Temp_P.get_eye());
-		(*win).remove_record1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.top());
+		(*win).remove_record1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.top(), POINT_AFTER_COMMA);
 		(*win).record_count1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.getsize());
 
 		(*win).eye_mode1.enable();
@@ -459,7 +468,10 @@ public:
 
 	void action_buttonF3()
 	{
-		set_jump(id_wind_train);
+		if ((*Temp_D).t_eye.setup_time_os != 0 || (*Temp_D).t_eye.setup_time_od != 0)
+			set_jump(id_wind_train);
+		else
+			set_jump(id_wind_result);
 	};
 
 
