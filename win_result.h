@@ -197,6 +197,9 @@ public:
 	{
 		Keyboard_Handler::init();
 
+		//Иницилизация SD карты
+		(*Data_Mngr).init();
+
 		(*win).os_n1.strcpy_center_text((*Temp_D).m_eye.os_n.seq.average(), POINT_AFTER_COMMA);
 		(*win).os_n2.strcpy_center_text((*Temp_D).m_eye.os_n.seq.error(), POINT_AFTER_COMMA);
 		(*win).os_n3.strcpy_center_text((*Temp_D).m_eye.os_n.seq.getsize());
@@ -272,8 +275,10 @@ public:
 	};
 	void action_buttonF3()
 	{
-		(*Data_Mngr).save_result();
-		set_jump(id_wind_end);
+		if((*Data_Mngr).save_result())
+			set_jump(id_wind_end);
+		else
+			set_jump(id_wind_error_init_SD_wind);
 	};
 
 private:

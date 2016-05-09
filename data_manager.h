@@ -16,7 +16,10 @@ public:
 	~Data_Manager();
 	bool init()
 	{
-		return init_card_status = SD.begin(SD_CS);
+		Serial.print("Verification SD is ");
+		init_card_status = SD.begin(SD_CS);
+		Serial.println(init_card_status);
+		return init_card_status;
 	}
 	bool verification()
 	{
@@ -438,30 +441,105 @@ public:
 					// -----------------------------------------------------------------------
 					// Save Time training
 
+					_str[0] = 210; //Ò
+					_str[1] = 240; //ğ
+					_str[2] = 229; //å
+					_str[3] = 237; //í
+					_str[4] = 232; //è
+					_str[5] = 240; //ğ
+					_str[6] = 238; //î
+					_str[7] = 226; //â
+					_str[8] = 234; //ê
+					_str[9] = 224; //à
+					_str[10] = 9; // tab
+					_str[11] = 0; // New str
+
+					_file.print(_str);
+
+					_str[0] = 193; //Á
+					_str[1] = 235; //ë
+					_str[2] = 232; //è
+					_str[3] = 230; //æ
+					_str[4] = 237; //í
+					_str[5] = 255; //ÿ
+					_str[6] = 255; //ÿ
+					_str[7] = 32; // 
+					_str[8] = 227; //ã
+					_str[9] = 240; //ğ
+					_str[10] = 224; //à
+					_str[11] = 237; //í
+					_str[12] = 252; //ü
+					_str[13] = 9; // tab
+					_str[14] = 0; // New str
+
+					_file.print(_str);
+
+					_str[0] = 196; //Ä
+					_str[1] = 224; //à
+					_str[2] = 235; //ë
+					_str[3] = 252; //ü
+					_str[4] = 237; //í
+					_str[5] = 255; //ÿ
+					_str[6] = 255; //ÿ
+					_str[7] = 32; // 
+					_str[8] = 227; //ã
+					_str[9] = 240; //ğ
+					_str[10] = 224; //à
+					_str[11] = 237; //í
+					_str[12] = 252; //ü
+					_str[13] = 9; // tab
+					_str[14] = 0; // New str
+
+					_file.print(_str);
+
 					_str[0] = 194; //Â
 					_str[1] = 240; //ğ
 					_str[2] = 229; //å
 					_str[3] = 236; //ì
 					_str[4] = 255; //ÿ
-					_str[5] = 32; // 
-					_str[6] = 242; //ò
-					_str[7] = 240; //ğ
-					_str[8] = 229; //å
-					_str[9] = 237; //í
-					_str[10] = 232; //è
-					_str[11] = 240; //ğ
-					_str[12] = 238; //î
-					_str[13] = 226; //â
-					_str[14] = 234; //ê
-					_str[15] = 232; //è
-					_str[16] = 9; // tab
-					_str[17] = 0; // New str
+					_str[5] = 9; // tab
+					_str[6] = 0; // New str
+
+					_file.print(_str);
+					_file.println();
+
+					_str[0] = 79; //O
+					_str[1] = 83; //S
+					_str[2] = 9; // tab
+					_str[3] = 0; // New str
 
 					_file.print(_str);
 
-					_file.print(get_time((*Temp_D).t_eye.time));
+					if ((*Temp_D).t_eye.os_n.seq.getsize()<3)_file.print("*");
+					_file.print((*Temp_D).t_eye.os_n.seq.average());
+					_file.print("\t");
 
+					if ((*Temp_D).t_eye.os_f.seq.getsize()<3)_file.print("*");
+					_file.print((*Temp_D).t_eye.os_f.seq.average());
+					_file.print("\t");
+
+					_file.print(get_time((*Temp_D).t_eye.setup_time_os - (*Temp_D).t_eye.time_spend_os));
 					_file.println();
+
+
+					_str[0] = 79; //O
+					_str[1] = 68; //D
+					_str[2] = 9; // tab
+					_str[3] = 0; // New str
+
+					_file.print(_str);
+
+					if ((*Temp_D).t_eye.od_n.seq.getsize()<3)_file.print("*");
+					_file.print((*Temp_D).t_eye.od_n.seq.average());
+					_file.print("\t");
+
+					if ((*Temp_D).t_eye.od_f.seq.getsize()<3)_file.print("*");
+					_file.print((*Temp_D).t_eye.od_f.seq.average());
+					_file.print("\t");
+
+					_file.print(get_time((*Temp_D).t_eye.setup_time_od - (*Temp_D).t_eye.time_spend_od));
+					_file.println();
+
 					_file.println();
 
 

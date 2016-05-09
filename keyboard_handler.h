@@ -3,7 +3,12 @@
 #include"data_manager.h"
 #include <VGA.h>
 
-enum id_wind { id_wind_undifine, id_wind_help, id_wind_data, id_wind_option, id_wind_oper, id_wind_train, id_wind_result, id_wind_end, id_wind_error_verif_data_mngr, id_wind_error_empty_wind };
+enum id_wind { id_wind_undifine, id_wind_help,
+	id_wind_data, id_wind_option, id_wind_oper,
+	id_wind_train, id_wind_result, id_wind_end,
+	id_wind_error_verif_data_mngr, id_wind_error_empty_wind,
+	id_wind_error_not_correct_book_numb_wind,
+	id_wind_error_init_SD_wind };
 
 class Keyboard_Handler
 {

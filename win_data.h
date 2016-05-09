@@ -80,11 +80,11 @@ private:
 		name0.strcpy_text(str_name0);
 		name1.strcpy_center_text("");
 
-		char str_middle_name0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 52, 46, 206, 242, 247, 229, 241, 242, 226, 238, 0 };//4.Отчество
+		char str_middle_name0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 32, 32, 32, 53, 46, 206, 242, 247, 229, 241, 242, 226, 238, 0 };//4.Отчество
 		middle_name0.strcpy_text(str_middle_name0);
 		middle_name1.strcpy_center_text("");
 
-		char str_book_numb0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 53, 46, 205, 238, 236, 229, 240, 32, 234, 224, 240, 242, 251, 0 };//5.Номер карты
+		char str_book_numb0[OFFSET_FOR_INFORMATION_ON_DISPLEY] = { 32, 32, 32, 54, 46, 205, 238, 236, 229, 240, 32, 234, 224, 240, 242, 251, 0 };//5.Номер карты
 		book_numb0.strcpy_text(str_book_numb0);
 		book_numb1.strcpy_center_text("");
 
@@ -175,8 +175,18 @@ public:
 			(*win).middle_name1.strcpy_center_text((*Temp_D).middle_name);
 			break;
 		case 6:
-			if (strlen((*Temp_D).book_numb)<DATA_STRING_LENGTH - 1)
-				strcat((*Temp_D).book_numb, _word);
+			if (strlen((*Temp_D).book_numb)<9 - 1)
+			if ((*Temp_D).book_numb[0] == '0/')
+			{
+				if (right_first_symbol(_word[0]))
+					strcat((*Temp_D).book_numb, _word);
+			}
+			else
+			{
+				if (right_symbol(_word[0]))
+					strcat((*Temp_D).book_numb, _word);
+			}
+
 			(*win).book_numb1.strcpy_center_text((*Temp_D).book_numb);
 			break;
 		default:
@@ -256,7 +266,10 @@ public:
 	};
 	void action_buttonF3()
 	{
-		set_jump(id_wind_option);
+		if (strlen((*Temp_D).book_numb) != 0)
+			set_jump(id_wind_option);
+		else
+			set_jump(id_wind_error_not_correct_book_numb_wind);
 	};
 
 private:
@@ -269,33 +282,27 @@ private:
 		switch (set_point)
 		{
 		case 1:
-			if (strlen((*Temp_D).data)<DATA_STRING_LENGTH - 1)
-				strcpy((*Temp_D).data, '\0');
+			strcpy((*Temp_D).data, '\0');
 			(*win).data1.strcpy_center_text((*Temp_D).data);
 			break;
 		case 2:
-			if (strlen((*Temp_D).time)<DATA_STRING_LENGTH - 1)
-				strcpy((*Temp_D).time, '\0');
+			strcpy((*Temp_D).time, '\0');
 			(*win).time1.strcpy_center_text((*Temp_D).time);
 			break;
 		case 3:
-			if (strlen((*Temp_D).surname)<DATA_STRING_LENGTH - 1)
-				strcpy((*Temp_D).surname, '\0');
+			strcpy((*Temp_D).surname, '\0');
 			(*win).surname1.strcpy_center_text((*Temp_D).surname);
 			break;
 		case 4:
-			if (strlen((*Temp_D).name)<DATA_STRING_LENGTH - 1)
-				strcpy((*Temp_D).name, '\0');
+			strcpy((*Temp_D).name, '\0');
 			(*win).name1.strcpy_center_text((*Temp_D).name);
 			break;
 		case 5:
-			if (strlen((*Temp_D).middle_name)<DATA_STRING_LENGTH - 1)
-				strcpy((*Temp_D).middle_name, '\0');
+			strcpy((*Temp_D).middle_name, '\0');
 			(*win).middle_name1.strcpy_center_text((*Temp_D).middle_name);
 			break;
 		case 6:
-			if (strlen((*Temp_D).book_numb)<DATA_STRING_LENGTH - 1)
-				strcpy((*Temp_D).book_numb, '\0');
+			strcpy((*Temp_D).book_numb, '\0');
 			(*win).book_numb1.strcpy_center_text((*Temp_D).book_numb);
 			break;
 		default:
@@ -313,6 +320,22 @@ private:
 		(*win).name1.disable();
 		(*win).middle_name1.disable();
 		(*win).book_numb1.disable();
+	}
+	bool right_symbol(char ch)
+	{
+		if ((ch >= '0') && ((ch <= '9'))) return true;
+		if (ch == ',') return true;
+		if (ch == '.') return true;
+		if (ch == '-') return true;
+		if (ch == '_') return true;
+		return false;
+	}
+	bool right_first_symbol(char ch)
+	{
+		if ((ch >= '0') && ((ch <= '9'))) return true;
+		if (ch == '-') return true;
+		if (ch == '_') return true;
+		return false;
 	}
 
 };
