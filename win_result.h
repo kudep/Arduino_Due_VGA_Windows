@@ -198,67 +198,74 @@ public:
 		Keyboard_Handler::init();
 
 		//Иницилизация SD карты
-		(*Data_Mngr).init();
-
-		(*win).os_n1.strcpy_center_text((*Temp_D).m_eye.os_n.seq.average(), POINT_AFTER_COMMA);
-		(*win).os_n2.strcpy_center_text((*Temp_D).m_eye.os_n.seq.error(), POINT_AFTER_COMMA);
-		(*win).os_n3.strcpy_center_text((*Temp_D).m_eye.os_n.seq.getsize());
-
-		(*win).os_f1.strcpy_center_text((*Temp_D).m_eye.os_f.seq.average(), POINT_AFTER_COMMA);
-		(*win).os_f2.strcpy_center_text((*Temp_D).m_eye.os_f.seq.error(), POINT_AFTER_COMMA);
-		(*win).os_f3.strcpy_center_text((*Temp_D).m_eye.os_f.seq.getsize());
-
-
-		(*win).od_n1.strcpy_center_text((*Temp_D).m_eye.od_n.seq.average(), POINT_AFTER_COMMA);
-		(*win).od_n2.strcpy_center_text((*Temp_D).m_eye.od_n.seq.error(), POINT_AFTER_COMMA);
-		(*win).od_n3.strcpy_center_text((*Temp_D).m_eye.od_n.seq.getsize());
-
-		(*win).od_f1.strcpy_center_text((*Temp_D).m_eye.od_f.seq.average(), POINT_AFTER_COMMA);
-		(*win).od_f2.strcpy_center_text((*Temp_D).m_eye.od_f.seq.error(), POINT_AFTER_COMMA);
-		(*win).od_f3.strcpy_center_text((*Temp_D).m_eye.od_f.seq.getsize());
-
-		(*win).tr_os1.strcpy_center_text((*Temp_D).t_eye.os_n.seq.average(), POINT_AFTER_COMMA);
-		(*win).tr_os2.strcpy_center_text((*Temp_D).t_eye.os_f.seq.average(), POINT_AFTER_COMMA);
-		(*win).tr_os3.strcpy_center_text(get_time((*Temp_D).t_eye.setup_time_os - (*Temp_D).t_eye.time_spend_os));
-		(*win).tr_od1.strcpy_center_text((*Temp_D).t_eye.od_n.seq.average(), POINT_AFTER_COMMA);
-		(*win).tr_od2.strcpy_center_text((*Temp_D).t_eye.od_f.seq.average(), POINT_AFTER_COMMA);
-		(*win).tr_od3.strcpy_center_text(get_time((*Temp_D).t_eye.setup_time_od-(*Temp_D).t_eye.time_spend_od));
-		if ((*Temp_D).t_eye.os_n.seq.getsize() < 3)
+		if ((*Data_Mngr).init())
 		{
-			(*win).tr_os1.enable();
+
+
+			(*win).os_n1.strcpy_center_text((*Temp_D).m_eye.os_n.seq.average(), POINT_AFTER_COMMA);
+			(*win).os_n2.strcpy_center_text((*Temp_D).m_eye.os_n.seq.error(), POINT_AFTER_COMMA);
+			(*win).os_n3.strcpy_center_text((*Temp_D).m_eye.os_n.seq.getsize());
+
+			(*win).os_f1.strcpy_center_text((*Temp_D).m_eye.os_f.seq.average(), POINT_AFTER_COMMA);
+			(*win).os_f2.strcpy_center_text((*Temp_D).m_eye.os_f.seq.error(), POINT_AFTER_COMMA);
+			(*win).os_f3.strcpy_center_text((*Temp_D).m_eye.os_f.seq.getsize());
+
+
+			(*win).od_n1.strcpy_center_text((*Temp_D).m_eye.od_n.seq.average(), POINT_AFTER_COMMA);
+			(*win).od_n2.strcpy_center_text((*Temp_D).m_eye.od_n.seq.error(), POINT_AFTER_COMMA);
+			(*win).od_n3.strcpy_center_text((*Temp_D).m_eye.od_n.seq.getsize());
+
+			(*win).od_f1.strcpy_center_text((*Temp_D).m_eye.od_f.seq.average(), POINT_AFTER_COMMA);
+			(*win).od_f2.strcpy_center_text((*Temp_D).m_eye.od_f.seq.error(), POINT_AFTER_COMMA);
+			(*win).od_f3.strcpy_center_text((*Temp_D).m_eye.od_f.seq.getsize());
+
+			(*win).tr_os1.strcpy_center_text((*Temp_D).t_eye.os_n.seq.average(), POINT_AFTER_COMMA);
+			(*win).tr_os2.strcpy_center_text((*Temp_D).t_eye.os_f.seq.average(), POINT_AFTER_COMMA);
+			(*win).tr_os3.strcpy_center_text(get_time((*Temp_D).t_eye.setup_time_os - (*Temp_D).t_eye.time_spend_os));
+			(*win).tr_od1.strcpy_center_text((*Temp_D).t_eye.od_n.seq.average(), POINT_AFTER_COMMA);
+			(*win).tr_od2.strcpy_center_text((*Temp_D).t_eye.od_f.seq.average(), POINT_AFTER_COMMA);
+			(*win).tr_od3.strcpy_center_text(get_time((*Temp_D).t_eye.setup_time_od - (*Temp_D).t_eye.time_spend_od));
+			if ((*Temp_D).t_eye.os_n.seq.getsize() < 3)
+			{
+				(*win).tr_os1.enable();
+			}
+			else
+			{
+				(*win).tr_os1.disable();
+			}
+
+			if ((*Temp_D).t_eye.os_f.seq.getsize()<3)
+			{
+				(*win).tr_os2.enable();
+			}
+			else
+			{
+				(*win).tr_os2.disable();
+			}
+
+			if ((*Temp_D).t_eye.od_n.seq.getsize()<3)
+			{
+				(*win).tr_od1.enable();
+			}
+			else
+			{
+				(*win).tr_od1.disable();
+			}
+
+			if ((*Temp_D).t_eye.od_f.seq.getsize()<3)
+			{
+				(*win).tr_od2.enable();
+			}
+			else
+			{
+				(*win).tr_od2.disable();
+			}
+			(*win).refresh();
 		}
 		else
 		{
-			(*win).tr_os1.disable();
+			set_jump(id_wind_error_init_SD_wind);
 		}
-
-		if ((*Temp_D).t_eye.os_f.seq.getsize()<3)
-		{
-			(*win).tr_os2.enable();
-		}
-		else
-		{
-			(*win).tr_os2.disable();
-		}
-
-		if ((*Temp_D).t_eye.od_n.seq.getsize()<3)
-		{
-			(*win).tr_od1.enable();
-		}			   
-		else		   
-		{			   
-			(*win).tr_od1.disable();
-		}
-
-		if ((*Temp_D).t_eye.od_f.seq.getsize()<3)
-		{
-			(*win).tr_od2.enable();
-		}
-		else
-		{
-			(*win).tr_od2.disable();
-		}
-		(*win).refresh();
 	}
 
 

@@ -97,30 +97,9 @@ public:
 	{
 		back_handler = _back_handler;
 	}
-	void push_message(id_wind m_t)
+	void push_message(char s[])
 	{
-		char str_mess_end[] = 
-		{ 208, 229, 231, 243, 235, 252, 242,
-			224, 242, 32, 241, 238, 245, 240, 224,
-			237, 229, 237, 0 };//Результат сохранен
-		char str_mess_verif_data_mngr[] = 
-		{ 207, 238, 242, 229, 240, 229, 237, 237, 
-		238, 32, 241, 238, 229, 228, 232, 237, 229,
-		237, 232, 229, 32, 241, 32, 83, 68, 32, 234, 
-		224, 240, 242, 238, 233, 0 };//Потеренно соединение с SD картой
-		
-		switch (m_t)
-		{
-		case id_wind_end:
-			(*win).content.strcpy_center_text(str_mess_end);
-			break;
-		case id_wind_error_verif_data_mngr:
-			(*win).content.strcpy_center_text(str_mess_verif_data_mngr);
-			break;
-		default:
-			(*win).content.strcpy_center_text(" ");
-			break;
-		}
+		(*win).content.strcpy_center_text(s);
 
 		(*win).update();
 	}

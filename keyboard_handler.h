@@ -61,7 +61,7 @@ public:
 
 	virtual id_wind get_handler(){ return handler_num; };
 
-	virtual void push_message(id_wind m_t){};
+	virtual void push_message(char s[]){};
 
 	virtual void set_back_handler(id_wind  _back_handler){}
 protected:

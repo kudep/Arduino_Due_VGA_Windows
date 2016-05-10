@@ -7,6 +7,227 @@
 
 #define SD_CS   2  // Chip select line for SD card
 
+struct slide_test_obj_data
+{
+	int numb = 0;
+	int x = 0;
+	int y = 0;
+	int l = 0;
+	int h = 0;
+	int orient = 1;
+	char name[30] = { 0 };
+	void reset()
+	{
+		numb = 0;
+		x = 0;
+		y = 0;
+		l = 0;
+		h = 0;
+		orient = 1;
+		name[0] = 0;
+	}
+};
+struct slide_data
+{
+	int numb = 1;
+	int numb_VIZ3 = 1;
+	int numb_VIZ7 = 1;
+	int max_numb_VIZ3 = 1;
+	int max_numb_VIZ7 = 1;
+	bool VIZ = false;
+	slide_test_obj_data test_obj;
+	void reset()
+	{
+
+		numb = 1;
+		numb_VIZ3 = 1;
+		numb_VIZ7 = 1;
+		max_numb_VIZ3 = 1;
+		max_numb_VIZ7 = 1;
+		VIZ = false;
+		test_obj.reset();
+	}
+	bool load_slide(int ID_product)
+	{
+		char _str[13] = { 0 };
+		char s[7];
+		if (ID_product<10)
+			stradd(_str, "00");
+		else
+		if (ID_product<100)
+			stradd(_str, "0");
+		itoa(ID_product, s);
+		stradd(_str, s);
+		stradd(_str, "SL");
+
+		if (numb<10)
+			stradd(_str, "0");
+		itoa(numb, s);
+		stradd(_str, s);
+		stradd(_str, ".txt");
+
+		File _file = SD.open(_str, FILE_READ);
+		max_numb_VIZ3 = _file.parseInt();
+		max_numb_VIZ7 = _file.parseInt();
+		if (VIZ)
+		{
+			if (max_numb_VIZ7 == 0)
+			{
+
+				_file.close();
+				return false;
+			}
+
+			if (numb_VIZ7>max_numb_VIZ7 + 1)
+				numb_VIZ7 = 1;
+			numb_VIZ7++;
+
+			for (int i = 1; i < (numb_VIZ7 + max_numb_VIZ3); i++)
+				_file.readStringUntil('\n');
+			test_obj.x = _file.parseInt();
+			test_obj.y = _file.parseInt();
+			test_obj.l = _file.parseInt();
+			test_obj.h = _file.parseInt();
+			test_obj.orient = _file.parseInt();
+			test_obj.name[0] = 0;
+			char _str[2] = { 0, 0 };
+			switch (test_obj.orient)
+			{
+			case 0:
+				_str[0] = 24;
+				stradd(test_obj.name, _str);
+				break;
+			case 1:
+				_str[0] = 26;
+				stradd(test_obj.name, _str);
+				break;
+			case 2:
+				_str[0] = 25;
+				stradd(test_obj.name, _str);
+				break;
+			case 3:
+				_str[0] = 27;
+				stradd(test_obj.name, _str);
+				break;
+			default:
+				_str[0] = 0;
+				stradd(test_obj.name, _str);
+				break;
+			}
+			stradd(test_obj.name, (char*)_file.readStringUntil('\n').c_str());
+			_file.close();
+			return true;
+		}
+		{
+			if (max_numb_VIZ3 == 0)
+			{
+
+				_file.close();
+				return false;
+			}
+
+			if (numb_VIZ3>max_numb_VIZ3)
+				numb_VIZ3 = 1;
+			numb_VIZ3++;
+
+			for (int i = 1; i < (numb_VIZ3); i++)
+				_file.readStringUntil('\n');
+			test_obj.x = _file.parseInt();
+			test_obj.y = _file.parseInt();
+			test_obj.l = _file.parseInt();
+			test_obj.h = _file.parseInt();
+			test_obj.orient = _file.parseInt();
+			test_obj.name[0] = 0;
+			char _str[2] = {0,0};
+			switch (test_obj.orient)
+			{
+			case 0:
+				_str[0] = 24;
+				stradd(test_obj.name, _str);
+				break;
+			case 1:
+				_str[0] = 26;
+				stradd(test_obj.name, _str);
+				break;
+			case 2:
+				_str[0] = 25;
+				stradd(test_obj.name, _str);
+				break;
+			case 3:
+				_str[0] = 27;
+				stradd(test_obj.name, _str);
+				break;
+			default:
+				_str[0] = 0;
+				stradd(test_obj.name, _str);
+				break;
+			}
+			stradd(test_obj.name, (char*)_file.readStringUntil('\n').c_str());
+			_file.close();
+			return true;
+		}
+	}
+private:
+	void stradd(char s[], char add[])
+	{
+		int len = strlen(s);
+		for (int i = 0; i <= strlen(add); i++)
+			s[i + len] = add[i];
+		s[strlen(s) + strlen(add) - 1] = 0;
+		//s[0] = 187;
+		//s[1] = 0;
+	}
+	void itoa(int n, char s[])
+	{
+		int i, sign;
+
+		if ((sign = n) < 0)  /* записываем знак */
+			n = -n;          /* делаем n положительным числом */
+		i = 0;
+		do {       /* генерируем цифры в обратном порядке */
+			s[i++] = n % 10 + '0';   /* берем следующую цифру */
+		} while ((n /= 10) > 0);     /* удаляем */
+		if (sign < 0)
+			s[i++] = '-';
+		s[i] = '\0';
+		reverse(s);
+	}
+	void reverse(char s[])
+	{
+		int i, j;
+		char c;
+
+		for (i = 0, j = strlen(s) - 1; i<j; i++, j--) {
+			c = s[i];
+			s[i] = s[j];
+			s[j] = c;
+		}
+	}
+};
+struct pic_data
+{
+	int numb = 0;
+	char name[30] = { 0 };
+	void reset()
+	{
+		numb = 0;
+		name[0] = 0;
+	}
+};
+
+
+struct LCD_data
+{
+	bool flag_pic = false;
+	pic_data pic;
+	slide_data slide;
+	void reset()
+	{
+		flag_pic = false;
+		pic.reset();
+		slide.reset();
+	}
+};
 
 class Data_Manager
 {
@@ -544,14 +765,40 @@ public:
 
 
 					_file.close();
-					return true;
+
+					_str[0] = 82; //R
+					_str[1] = 69; //E
+					_str[2] = 67; //C
+					_str[3] = 95; //_
+					_str[4] = 76; //L
+					_str[5] = 73; //I
+					_str[6] = 83; //S
+					_str[7] = 84; //T
+					_str[8] = 0; // New str
+
+					stradd(_str, ".tsv");
+					if (_file = SD.open(_str, FILE_WRITE))
+					{
+						Serial.println("Yes, Writing");
+						_file.print((*Temp_D).book_numb);
+						_file.print("\t");
+						_file.print((*Temp_D).surname);
+						_file.print("\t");
+						_file.print((*Temp_D).name);
+						_file.print("\t");
+						_file.print((*Temp_D).middle_name);
+						_file.print("\n");
+
+						_file.close();
+						return true;
+					}
 				}
 
 			}
 		}
 		return false;
 	}
-
+	LCD_data LCD_Data;
 private:
 	Temporary_Data* Temp_D;
 	bool init_card_status = false;

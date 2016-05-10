@@ -325,20 +325,37 @@ public:
 	void init()
 	{
 		Keyboard_Handler::init();
-		Temp_P.os = (*Temp_D).m_eye.os;
-		Temp_P.od = (*Temp_D).m_eye.od;
-		Temp_P.change_eye();
-		vision = true;
-		(*win).test_obj_info1.strcpy_center_text(Temp_P.test_obj_info1);
-		(*win).chang_viz1.strcpy_center_text(Temp_P.get_viz());
-		(*win).patient_controller1.strcpy_center_text(Temp_P.get_ptnt_controller());
-		(*win).auto_mode1.strcpy_center_text(Temp_P.get_auto_mode());
-		(*win).eye_mode1.strcpy_center_text(Temp_P.get_eye());
-		(*win).focus_point1.strcpy_center_text(Temp_P.get_focus_point());
-		(*win).record_count1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.getsize());
-		(*win).record_position1.strcpy_center_text(Temp_P.record_position, POINT_AFTER_COMMA);
-		(*win).remove_record1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.top(), POINT_AFTER_COMMA);
-		(*win).refresh();
+
+		//Иницилизация SD карты
+		if ((*Data_Mngr).init())
+		{
+
+			Temp_P.os = (*Temp_D).m_eye.os;
+			Temp_P.od = (*Temp_D).m_eye.od;
+			Temp_P.change_eye();
+			vision = true;
+			(*win).test_obj_info1.strcpy_center_text(Temp_P.test_obj_info1);
+			(*win).chang_viz1.strcpy_center_text(Temp_P.get_viz());
+			(*win).patient_controller1.strcpy_center_text(Temp_P.get_ptnt_controller());
+			(*win).auto_mode1.strcpy_center_text(Temp_P.get_auto_mode());
+			(*win).eye_mode1.strcpy_center_text(Temp_P.get_eye());
+			(*win).focus_point1.strcpy_center_text(Temp_P.get_focus_point());
+			(*win).record_count1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.getsize());
+			(*win).record_position1.strcpy_center_text(Temp_P.record_position, POINT_AFTER_COMMA);
+			(*win).remove_record1.strcpy_center_text((*((*Temp_D).access_meas_p(Temp_P.eye, Temp_P.focus_point))).seq.top(), POINT_AFTER_COMMA);
+
+			//Операция определения слайда
+			(*Data_Mngr).LCD_Data.flag_pic = false;//Результат определения
+			(*Data_Mngr).LCD_Data.slide.numb = 1;//Результат 
+
+			load_pic();
+
+			(*win).refresh();
+		}
+		else
+		{
+			set_jump(id_wind_error_init_SD_wind);
+		}
 	}
 
 	void finit()
@@ -350,6 +367,9 @@ public:
 	void action_button1()
 	{
 		disable_buttons();
+		//Операция определения слайда
+		(*Data_Mngr).LCD_Data.flag_pic = false;//Результат определения
+		(*Data_Mngr).LCD_Data.slide.numb = 1;//Результат определения
 
 		(*win).start_position1.enable();
 		(*win).update();
@@ -360,6 +380,7 @@ public:
 	{
 		disable_buttons();
 		(*win).chang_test_obj1.enable();
+		load_pic();
 		(*win).update();
 
 	};
@@ -546,7 +567,19 @@ private:
 		(*win).record_position1.disable();
 		(*win).remove_record1.disable();
 	}
+	void load_pic()
+	{
+		if ((*Data_Mngr).LCD_Data.flag_pic)
+		{
 
+		}
+		else
+		{
+			(*Data_Mngr).LCD_Data.slide.VIZ = Temp_P.viz;
+			(*Data_Mngr).LCD_Data.slide.load_slide(1);//Цифра ф-ции это IP_product
+			(*win).test_obj_info1.strcpy_center_text((*Data_Mngr).LCD_Data.slide.test_obj.name);
+		}
+	}
 };
 
 

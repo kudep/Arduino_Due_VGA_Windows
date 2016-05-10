@@ -102,7 +102,6 @@ void Process()
 		{
 		case	58:	//"F1"
 			(* pw).action_buttonF1();
-     Serial.println("F1");
 			break;
 
 		case	59:	//"F2"
@@ -137,18 +136,88 @@ void Process()
 	}
 
 	change_wind();
+	change_wind();//Чтобы варнинги сразу появлялись, а не после еще одного нажатия на кнопку
 
 	// getKey() returns the ASCII translation of OEM key
 	// combined with modifiers.cp1251_en_to_ru[keyboard.getKey()]);
 }
 
+void send_win_end(char *XstrX)
+{
+	XstrX[0] = 208; //Р
+	XstrX[1] = 229; //е
+	XstrX[2] = 231; //з
+	XstrX[3] = 243; //у
+	XstrX[4] = 235; //л
+	XstrX[5] = 252; //ь
+	XstrX[6] = 242; //т
+	XstrX[7] = 224; //а
+	XstrX[8] = 242; //т
+	XstrX[9] = 32; // 
+	XstrX[10] = 241; //с
+	XstrX[11] = 238; //о
+	XstrX[12] = 245; //х
+	XstrX[13] = 240; //р
+	XstrX[14] = 224; //а
+	XstrX[15] = 237; //н
+	XstrX[16] = 229; //е
+	XstrX[17] = 237; //н
+	XstrX[18] = 0; // New str
+}
+void send_wind_error_init_SD(char *XstrX)
+{
+	XstrX[0] = 202; //К
+	XstrX[1] = 224; //а
+	XstrX[2] = 240; //р
+	XstrX[3] = 242; //т
+	XstrX[4] = 224; //а
+	XstrX[5] = 32; // 
+	XstrX[6] = 239; //п
+	XstrX[7] = 224; //а
+	XstrX[8] = 236; //м
+	XstrX[9] = 255; //я
+	XstrX[10] = 242; //т
+	XstrX[11] = 232; //и
+	XstrX[12] = 32; // 
+	XstrX[13] = 237; //н
+	XstrX[14] = 229; //е
+	XstrX[15] = 32; // 
+	XstrX[16] = 243; //у
+	XstrX[17] = 241; //с
+	XstrX[18] = 242; //т
+	XstrX[19] = 224; //а
+	XstrX[20] = 237; //н
+	XstrX[21] = 238; //о
+	XstrX[22] = 226; //в
+	XstrX[23] = 235; //л
+	XstrX[24] = 229; //е
+	XstrX[25] = 237; //н
+	XstrX[26] = 224; //а
+	XstrX[27] = 32; // 
+	XstrX[28] = 232; //и
+	XstrX[29] = 235; //л
+	XstrX[30] = 232; //и
+	XstrX[31] = 32; // 
+	XstrX[32] = 237; //н
+	XstrX[33] = 229; //е
+	XstrX[34] = 232; //и
+	XstrX[35] = 241; //с
+	XstrX[36] = 239; //п
+	XstrX[37] = 240; //р
+	XstrX[38] = 224; //а
+	XstrX[39] = 226; //в
+	XstrX[40] = 237; //н
+	XstrX[41] = 224; //а
+	XstrX[42] = 0; // New str
+}
+
 void change_wind()
 {
-	static id_wind handler_num = id_wind_undifine;
-	Serial.println((*pw).get_handler());
-	if ((*pw).get_handler() != id_wind_help) handler_num = (*pw).get_handler();
+	static id_wind handler_num = id_wind_data;
+	char _str[256];
 	if ((*pw).get_jump())
 	{
+		id_wind pre_handler_num = (*pw).get_handler();
 		(*pw).finit();
 		switch ((*pw).get_handler())
 		{
@@ -156,10 +225,7 @@ void change_wind()
 			Serial.println("Go to help");
 			delete pw;
 			pw = new Win_Help_Handler(&Temp_D, Data_Mngr);
-			if (handler_num != id_wind_undifine) 
-				(*pw).set_back_handler(handler_num);
-			else
-				(*pw).set_back_handler(id_wind_data);
+			(*pw).set_back_handler(handler_num);
 			break;
 		case id_wind_data:
 			Serial.println("Go to data");
@@ -192,25 +258,44 @@ void change_wind()
 			delete pw;
 			pw = new Win_Mess_Handler(&Temp_D, Data_Mngr);
 			(*pw).set_back_handler(id_wind_data);
-			(*pw).push_message(id_wind_end);
-			break;
 
+			send_win_end(_str);
+
+			(*pw).push_message(_str);
+
+			break;
+		case id_wind_error_init_SD_wind:
+			Serial.println("Go to mess of the end");
+			delete pw;
+			pw = new Win_Mess_Handler(&Temp_D, Data_Mngr);
+			(*pw).set_back_handler(handler_num);
+
+			send_wind_error_init_SD(_str);
+
+			(*pw).push_message(_str);
+
+			break;
+			/*
 		case id_wind_error_verif_data_mngr:
 			Serial.println("Go to mess of the end");
 			if (false)
 			{
 				(*pw).set_back_handler(handler_num);
 			}
-			(*pw).push_message(id_wind_error_verif_data_mngr);
-			break;
+
+			char _str_error_verif_data_mngr[] = { 208, 229, 231, 243, 235, 252, 242,
+				224, 242, 32, 241, 238, 245, 240, 224,
+				237, 229, 237, 0 };//Результат сохранен
+			(*pw).push_message(_str_error_verif_data_mngr);
+			break;*/
 		default:
 			Serial.println("Ooops!"); 
 			break;
 		}
 		(*pw).init();
+		handler_num = pre_handler_num;
 	}
 }
-
 
 void refresh_timer()
 {
