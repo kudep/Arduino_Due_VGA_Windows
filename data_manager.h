@@ -237,8 +237,9 @@ public:
 	~Data_Manager();
 	bool init()
 	{
+		if (!init_card_status)
+			init_card_status = SD.begin(SD_CS);
 		Serial.print("Verification SD is ");
-		init_card_status = SD.begin(SD_CS);
 		Serial.println(init_card_status);
 		return init_card_status;
 	}
