@@ -7,6 +7,8 @@
 #include"win_result.h"
 #include"win_mess.h"
 #include"longtime.h"
+#include "Adafruit_GFX.h"
+#include "SEPS525_OLED.h"
 
 #include <SPI.h>
 #include <SD.h>
@@ -32,6 +34,8 @@ Data_Manager Data_Mngr(Temp_D);
 
 CLongTimer TMR1(1000);
 int count = 1;
+
+SEPS525_OLED tft;
 
 // This function intercepts key press
 void keyPressed()
@@ -240,7 +244,7 @@ void change_wind()
 		case id_wind_oper:
 			Serial.println("Go to oper");
 			delete pw;
-			pw = new Win_Oper_Handler(&Temp_D, Data_Mngr);
+			pw = new Win_Oper_Handler(&Temp_D, Data_Mngr, tft);
 			break;
 		case id_wind_train:
 			Serial.println("Go to train");
@@ -308,9 +312,10 @@ void setup()
 
 	TMR1.event(refresh_timer);
 	TMR1.start();
-
+	tft.begin();
 	pw = new Win_Data_Handler(&Temp_D, Data_Mngr);//This window is first
 	(*pw).init();
+
 }
 const int deley_t = 100;
 

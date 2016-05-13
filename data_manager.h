@@ -27,6 +27,7 @@ struct slide_test_obj_data
 		name[0] = 0;
 	}
 };
+
 struct slide_data
 {
 	int numb = 1;
@@ -206,12 +207,92 @@ private:
 };
 struct pic_data
 {
-	int numb = 0;
+	int numb = 999;
+	int max_numb = 0;
 	char name[30] = { 0 };
+	char path[13] = { 0 };
 	void reset()
 	{
-		numb = 0;
+		numb = 999;
+		max_numb = 0;
 		name[0] = 0;
+		path[0] = 0;
+	}
+	bool next_step(int ID_product)
+	{
+		path[0] = 0;
+		char s[7];
+		char _str[13] = { 0 };
+		if (ID_product < 10)
+		{
+			stradd(path, "00");
+			stradd(_str, "00");
+		}
+		else
+		if (ID_product<100)
+		{
+			stradd(path, "0");
+			stradd(_str, "0");
+		}
+		itoa(ID_product, s);
+		stradd(path, s);
+		stradd(_str, s);
+		stradd(path, "IM");
+		stradd(_str, "ID");
+		if (max_numb>numb)
+			numb++;
+		else
+			numb = 1;
+		if (numb < 10)
+		{
+			stradd(path, "0");
+			stradd(_str, "0");
+		}
+		itoa(numb, s);
+		stradd(path, s);
+		stradd(_str, s);
+		stradd(path, ".bmp");
+		stradd(_str, ".txt");
+		File _file = SD.open(_str, FILE_READ);
+		name[0] = 0;
+		stradd(name, (char*)_file.readStringUntil('\n').c_str());
+		_file.close();
+	}
+private:
+	void stradd(char s[], char add[])
+	{
+		int len = strlen(s);
+		for (int i = 0; i <= strlen(add); i++)
+			s[i + len] = add[i];
+		s[strlen(s) + strlen(add) - 1] = 0;
+		//s[0] = 187;
+		//s[1] = 0;
+	}
+	void itoa(int n, char s[])
+	{
+		int i, sign;
+
+		if ((sign = n) < 0)  /* записываем знак */
+			n = -n;          /* делаем n положительным числом */
+		i = 0;
+		do {       /* генерируем цифры в обратном порядке */
+			s[i++] = n % 10 + '0';   /* берем следующую цифру */
+		} while ((n /= 10) > 0);     /* удаляем */
+		if (sign < 0)
+			s[i++] = '-';
+		s[i] = '\0';
+		reverse(s);
+	}
+	void reverse(char s[])
+	{
+		int i, j;
+		char c;
+
+		for (i = 0, j = strlen(s) - 1; i<j; i++, j--) {
+			c = s[i];
+			s[i] = s[j];
+			s[j] = c;
+		}
 	}
 };
 

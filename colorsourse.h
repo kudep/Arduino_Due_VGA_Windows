@@ -14,13 +14,24 @@ typedef uint8_t VGA_INTF_Color;
 struct VGA_INTF_Colors
 {
 	static const VGA_INTF_Color white = 255;
-	static const VGA_INTF_Color red=224;
-	static const VGA_INTF_Color orange=240;
-	static const VGA_INTF_Color grey=146;
-	static const VGA_INTF_Color purple=277;
-	static const VGA_INTF_Color green=28;
-	static const VGA_INTF_Color blue=3;
-	static const VGA_INTF_Color black=0;
+	static const VGA_INTF_Color red = 224;
+	static const VGA_INTF_Color orange = 240;
+	static const VGA_INTF_Color grey = 146;
+	static const VGA_INTF_Color purple = 277;
+	static const VGA_INTF_Color green = 28;
+	static const VGA_INTF_Color blue = 3;
+	static const VGA_INTF_Color black = 0;
+};
+struct OLED_Colors
+{
+	static const int white = 0xFFFF;
+	static const int red = 0xF800;
+	static const int cyan = 0x07FF;
+	static const int magenta = 0xF81F;
+	static const int yellow = 0xFFE0;
+	static const int green = 0x07E0;
+	static const int blue = 0x001F;
+	static const int black = 0;
 };
 
 

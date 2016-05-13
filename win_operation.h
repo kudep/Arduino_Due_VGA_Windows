@@ -4,6 +4,8 @@
 #include <VGA.h>
 #include"VGA_base_windows.h"
 #include"keyboard_handler.h"
+#include "Adafruit_GFX.h"
+#include "SEPS525_OLED.h"
 
 class Win_Oper :Win
 {
@@ -310,9 +312,10 @@ private:
 class Win_Oper_Handler : public Keyboard_Handler
 {
 public:
-	Win_Oper_Handler(Temporary_Data* _Temp_D, Data_Manager& _Data_Mngr) :Temp_D(_Temp_D)//, Keyboard_Handler(Data_Mngr)
+	Win_Oper_Handler(Temporary_Data* _Temp_D, Data_Manager& _Data_Mngr, SEPS525_OLED& _tft) :Temp_D(_Temp_D)//, Keyboard_Handler(Data_Mngr)
 	{
 		Data_Mngr = &_Data_Mngr;
+		tft = &_tft;
 		win = new Win_Oper;
 
 		Temp_P.reset();
@@ -347,7 +350,7 @@ public:
 			//Операция определения слайда
 			(*Data_Mngr).LCD_Data.flag_pic = false;//Результат определения
 			(*Data_Mngr).LCD_Data.slide.numb = 1;//Результат 
-
+			(*tft).fillScreen(OLED_Colors::black);
 			load_pic();
 
 			(*win).refresh();
@@ -368,8 +371,11 @@ public:
 	{
 		disable_buttons();
 		//Операция определения слайда
-		(*Data_Mngr).LCD_Data.flag_pic = false;//Результат определения
+		(*Data_Mngr).LCD_Data.flag_pic = !(*Data_Mngr).LCD_Data.flag_pic;//Результат определения
 		(*Data_Mngr).LCD_Data.slide.numb = 1;//Результат определения
+
+		(*tft).fillScreen(OLED_Colors::black);
+		load_pic();
 
 		(*win).start_position1.enable();
 		(*win).update();
@@ -509,6 +515,7 @@ public:
 		(*win).update();
 	};
 private:
+	SEPS525_OLED *tft;
 	Win_Oper* win;
 	Temporary_Data* Temp_D;
 	Temp_Param_Win_Oper Temp_P;
@@ -571,13 +578,18 @@ private:
 	{
 		if ((*Data_Mngr).LCD_Data.flag_pic)
 		{
-
+			(*Data_Mngr).LCD_Data.pic.max_numb=3;
+			(*Data_Mngr).LCD_Data.pic.next_step(1);
+			Serial.println((*Data_Mngr).LCD_Data.pic.path);
+			(*win).test_obj_info1.strcpy_center_text((*Data_Mngr).LCD_Data.pic.name);
+			(*tft).bmpfileDraw((*Data_Mngr).LCD_Data.pic.path);
 		}
 		else
 		{
 			(*Data_Mngr).LCD_Data.slide.VIZ = Temp_P.viz;
 			(*Data_Mngr).LCD_Data.slide.load_slide(1);//Цифра ф-ции это IP_product
 			(*win).test_obj_info1.strcpy_center_text((*Data_Mngr).LCD_Data.slide.test_obj.name);
+			(*tft).fillRect_with_back((*Data_Mngr).LCD_Data.slide.test_obj.x, (*Data_Mngr).LCD_Data.slide.test_obj.y, (*Data_Mngr).LCD_Data.slide.test_obj.l, (*Data_Mngr).LCD_Data.slide.test_obj.h, OLED_Colors::white, OLED_Colors::black);
 		}
 	}
 };
