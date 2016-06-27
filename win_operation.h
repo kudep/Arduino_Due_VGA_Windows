@@ -500,25 +500,36 @@ public:
 		else
 			set_jump(id_wind_result);
 	};
-
+	void refresh()
+	{
+		if (position_refresh)
+		{
+			Temp_P.record_position = (float)Motor.get_coord() / 100.0;
+			(*win).record_position1.strcpy_center_text(Temp_P.record_position, POINT_AFTER_COMMA);
+			(*win).update();
+		}
+	}
+	void stop_refresh()
+	{
+		position_refresh = false;
+	};
 
 	void action_button_left_point()
 	{
-		Temp_P.record_position-=10.7;
-		(*win).record_position1.strcpy_center_text(Temp_P.record_position, POINT_AFTER_COMMA);
-		(*win).update();
+		Motor.run(FORWARD);
+		position_refresh = true;
 	};
 	void action_button_rigth_point()
 	{
-		Temp_P.record_position+=9.3;
-		(*win).record_position1.strcpy_center_text(Temp_P.record_position, POINT_AFTER_COMMA);
-		(*win).update();
+		Motor.run(BACK);
+		position_refresh = true;
 	};
 private:
 	SEPS525_OLED *tft;
 	Win_Oper* win;
 	Temporary_Data* Temp_D;
 	Temp_Param_Win_Oper Temp_P;
+	bool position_refresh = false;
 	bool vision = false;
 	char s[7];
 	void itoa(int n, char s[])

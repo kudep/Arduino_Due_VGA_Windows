@@ -1,6 +1,6 @@
 #include"win_data.h"
 
-
+#define OFFSET_FOR_DEBUG_DISPLEY 10
 Win_Data::Win_Data() :
 
 //1 string
@@ -25,7 +25,11 @@ middle_name1(Color_Style(interactive), Metric_Parameters(OFFSET_FOR_INFORMATION_
 
 //5 string
 book_numb0(Color_Style(information), Metric_Parameters(1, 15, OFFSET_FOR_INFORMATION_ON_DISPLEY, 1)),
-book_numb1(Color_Style(interactive), Metric_Parameters(OFFSET_FOR_INFORMATION_ON_DISPLEY+2, 15, DATA_STRING_LENGTH, 1)),
+book_numb1(Color_Style(interactive), Metric_Parameters(OFFSET_FOR_INFORMATION_ON_DISPLEY + 2, 15, DATA_STRING_LENGTH, 1)),
+
+debug0(Color_Style(interactive), Metric_Parameters(1, 17, OFFSET_FOR_DEBUG_DISPLEY, 1)),
+debug1(Color_Style(interactive), Metric_Parameters(OFFSET_FOR_DEBUG_DISPLEY + 2, 17, OFFSET_FOR_DEBUG_DISPLEY, 1)),
+debug2(Color_Style(interactive), Metric_Parameters(OFFSET_FOR_DEBUG_DISPLEY + 2 + OFFSET_FOR_DEBUG_DISPLEY + 2, 17, OFFSET_FOR_DEBUG_DISPLEY, 1)),
 
 //Extend button
 extend_button0(Color_Style(interactive), Metric_Parameters(8, 28, 8, 1), "F1"),

@@ -32,7 +32,8 @@ Temporary_Data Temp_D;
 
 Data_Manager Data_Mngr(Temp_D);
 
-CLongTimer TMR1(1000);
+CLongTimer TMR1(500);
+CLongTimer TMR2(10000);
 int count = 1;
 
 SEPS525_OLED tft;
@@ -46,7 +47,9 @@ void keyPressed()
 // This function intercepts key release
 void keyReleased()
 {
-
+	Motor.stop();
+	(*pw).refresh();
+	(*pw).stop_refresh();
 }
 void change_wind(void);
 
@@ -303,62 +306,70 @@ void change_wind()
 
 void refresh_timer()
 {
+	TMR1.start();
+	TMR2.stop();
+	Jstick.task_enable = true;
+	/*
+	Serial.print("X ");
+	Serial.println(Jstick.get_x());
+	Serial.print("Y ");
+	Serial.println(Jstick.get_y());
+	Serial.print("B ");
+	Serial.println(Jstick.get_b());*/
+	(*pw).refresh();
 	(*pw).refresh_timer();
+}
+
+volatile boolean l;
+
+void TC0_Handler()
+{
+	long dummy = REG_TC0_SR0; // vital - reading this clears some flag
+	static int dl = 0;
+	Jstick.Task();// otherwise you get infinite interrupts
+	//l = !l;
+	Jstick.time = millis() - dl;
+	dl = millis();
 }
 void setup()
 {
+
 	Serial.begin(9600);
+	Motor.init();
+	Jstick.init();
+	//adc_init(ADC, SystemCoreClock, ADC_FREQ_MAX *2, 4); //
 	VGA.begin(320, 240, VGA_COLOUR);
 
 	TMR1.event(refresh_timer);
 	TMR1.start();
+	TMR2.event(refresh_timer);
+	TMR2.start();
 	tft.begin();
 	pw = new Win_Data_Handler(&Temp_D, Data_Mngr);//This window is first
 	(*pw).init();
 
-}
-const int deley_t = 100;
+	pinMode(13, OUTPUT);
+	pinMode(2, OUTPUT);    // port B pin 25  
+	analogWrite(2, 255);   // sets up some other registers I haven't worked out yet
+	REG_PIOB_PDR = 1 << 25; // disable PIO, enable peripheral
+	REG_PIOB_ABSR = 1 << 25; // select peripheral B
+	REG_TC0_WPMR = 0x54494D00; // enable write to registers
+	REG_TC0_CMR0 = 0b00000000000010011100010000000000; // set channel mode register (see datasheet)
+	REG_TC0_RC0 = 100000000; // counter period
+	REG_TC0_RA0 = 30000000;  // PWM value
+	REG_TC0_IER0 = 0b00010000; // enable interrupt on counter=rc
+	REG_TC0_IDR0 = 0b11101111; // disable other interrupts
 
-int i_Loop = 0;
+	NVIC_EnableIRQ(TC0_IRQn); // enable TC0 interrupts
+}
+
 void loop()
 {
+	//Jstick.Task();
+	//(*pw).refresh();
 	TMR1.tick();
-
+	TMR2.tick();
 	// Process USB tasks
 	usb.Task();
-
-
-
-	//count++;
-	//Serial.println(count);
-	////delay(100);
-	//(*pw).finit();
-	//delete pw;
-	//pw = new Win_Help_Handler(&Temp_D, Data_Mngr);
-	//(*pw).init();
-	//(*pw).finit();
-	//delete pw;
-	//pw = new Win_Data_Handler(&Temp_D, Data_Mngr);
-	//(*pw).init();
-	//(*pw).finit();
-	//delete pw;
-	//pw = new Win_Option_Handler(&Temp_D, Data_Mngr);
-	//(*pw).init();
-	//(*pw).finit();
-	//delete pw;
-	//pw = new Win_Oper_Handler(&Temp_D, Data_Mngr);
-	//(*pw).init();
-	//(*pw).finit();
-	//delete pw;
-	//pw = new Win_Train_Handler(&Temp_D, Data_Mngr);
-	//(*pw).init();
-	//(*pw).finit();
-	//delete pw;
-	//pw = new Win_Result_Handler(&Temp_D, Data_Mngr);
-	//(*pw).init();
-	//(*pw).finit();
-	//delete pw;
-	//pw = new Win_Mess_Handler(&Temp_D, Data_Mngr);
-
-	//(*pw).init();
+	digitalWrite(13, l);
 }

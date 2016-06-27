@@ -43,7 +43,9 @@ public:
 
 	virtual void action_button_left_point(){};
 	virtual void action_button_rigth_point(){};
-	virtual void refresh_timer()
+	virtual void refresh(){};
+	virtual void stop_refresh(){};
+		virtual void refresh_timer()
 	{
 
 		//if ((*Data_Mngr).verification())

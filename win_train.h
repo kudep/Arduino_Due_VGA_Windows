@@ -313,7 +313,8 @@ public:
 		(*win).focus_f1.strcpy_center_text(Temp_P.focus_f, POINT_AFTER_COMMA);
 		(*win).position1.strcpy_center_text(Temp_P.position, POINT_AFTER_COMMA);
 		(*win).timer1.strcpy_center_text(get_time(Temp_P.timer_count));
-		(*win).refresh();
+		(*win).refresh(); 
+		pr_mil = millis();
 	}
 
 	void finit()
@@ -458,8 +459,11 @@ public:
 	void refresh_timer()
 	{
 		Keyboard_Handler::refresh_timer();
-		if (Temp_P.timer_count >= 0)
-			Temp_P.timer_count--;
+		if (Temp_P.timer_count > 0)
+		{
+			Temp_P.timer_count -= (millis() - pr_mil)/1000;
+			pr_mil = millis();
+		}
 		else
 			Temp_P.timer_count = 0;
 
@@ -473,6 +477,7 @@ private:
 	bool vision = false;
 	char s[7];
 	int set_point = 0;
+	int pr_mil;
 	void itoa(int n, char s[])
 	{
 		int i, sign;

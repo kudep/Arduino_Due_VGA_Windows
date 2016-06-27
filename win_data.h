@@ -49,6 +49,11 @@ public:
 	CntrlSubGroup book_numb0;
 	CntrlSubGroup book_numb1;
 
+	//7 string
+	CntrlSubGroup debug0;
+	CntrlSubGroup debug1;
+	CntrlSubGroup debug2;
+
 	//Extend button
 	CntrlSubGroup extend_button0;
 	CntrlSubGroup extend_button1;
@@ -89,6 +94,11 @@ private:
 		book_numb1.strcpy_center_text("");
 
 
+		debug0.strcpy_center_text("");
+		debug1.strcpy_center_text("");
+		debug2.strcpy_center_text("");
+
+
 		char str_extend_button_description0[8] = { 207, 238, 236, 238, 249, 252, 0 };//Помощь
 		extend_button_description0.strcpy_center_text(str_extend_button_description0);
 
@@ -101,11 +111,12 @@ private:
 
 	}
 
-	CntrlSubGroup* parr[22] = 
+	CntrlSubGroup* parr[25] = 
 	{ 
 		&data0, &data1, &time0, &time1, &surname0,
-		&surname1, &name0, &name1, &middle_name0, 
-		&middle_name1, &book_numb0, &book_numb1, 
+		&surname1, &name0, &name1, &middle_name0,
+		&middle_name1, &book_numb0, &book_numb1,
+		&debug0, &debug1, &debug2,
 		&extend_button0, &extend_button1, &extend_button2,
 		&extend_button3, &extend_button4, &extend_button_description0, 
 		&extend_button_description1, &extend_button_description2,
@@ -208,6 +219,7 @@ public:
 
 	void action_button2()
 	{
+		REG_TC0_CCR0 = 0b101;    // start counter
 		disable_buttons();
 
 		set_point = 2;
@@ -271,7 +283,13 @@ public:
 		else
 			set_jump(id_wind_error_not_correct_book_numb_wind);
 	};
-
+	void refresh()
+	{
+		(*win).debug0.strcpy_center_text((int)Jstick.get_x());
+		(*win).debug1.strcpy_center_text((int)Jstick.time);
+		(*win).debug2.strcpy_center_text((int)Jstick.time1);
+		(*win).update();
+	};
 private:
 	Win_Data* win;
 	Temporary_Data* Temp_D;
