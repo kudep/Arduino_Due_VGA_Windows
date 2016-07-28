@@ -219,7 +219,6 @@ public:
 
 	void action_button2()
 	{
-		REG_TC0_CCR0 = 0b101;    // start counter
 		disable_buttons();
 
 		set_point = 2;

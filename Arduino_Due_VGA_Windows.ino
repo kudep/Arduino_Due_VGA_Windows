@@ -32,8 +32,7 @@ Temporary_Data Temp_D;
 
 Data_Manager Data_Mngr(Temp_D);
 
-CLongTimer TMR1(500);
-CLongTimer TMR2(10000);
+CLongTimer TMR1(20);
 int count = 1;
 
 SEPS525_OLED tft;
@@ -47,13 +46,13 @@ void keyPressed()
 // This function intercepts key release
 void keyReleased()
 {
-	Motor.stop();
+	//Motor.stop();
 	(*pw).refresh();
 	(*pw).stop_refresh();
 }
 void change_wind(void);
 
-void Process() 
+void Process()
 {
 
 	// getModifiers() returns a bits field with the modifiers-keys
@@ -64,39 +63,39 @@ void Process()
 		switch (keyboard.getKey())
 		{
 		case	49:	//"1"
-			(* pw).action_button1();
+			(*pw).action_button1();
 			break;
 
 		case	50:	//"2"
-			(* pw).action_button2();
+			(*pw).action_button2();
 			break;
 
 		case	51:	//"3"
-			(* pw).action_button3();
+			(*pw).action_button3();
 			break;
 
 		case	52:	//"4"
-			(* pw).action_button4();
+			(*pw).action_button4();
 			break;
 
 		case	53:	//"5"
-			(* pw).action_button5();
+			(*pw).action_button5();
 			break;
 
 		case	54:	//"6"
-			(* pw).action_button6();
+			(*pw).action_button6();
 			break;
 
 		case	55:	//"7"
-			(* pw).action_button7();
+			(*pw).action_button7();
 			break;
 
 		case	56:	//"8"
-			(* pw).action_button8();
+			(*pw).action_button8();
 			break;
 
 		case	57:	//"9"
-			(* pw).action_button9();
+			(*pw).action_button9();
 			break;
 
 		default:
@@ -108,35 +107,35 @@ void Process()
 		switch (keyboard.getOemKey())
 		{
 		case	58:	//"F1"
-			(* pw).action_buttonF1();
+			(*pw).action_buttonF1();
 			break;
 
 		case	59:	//"F2"
-			(* pw).action_buttonF2();
+			(*pw).action_buttonF2();
 			break;
 
 		case	60:	//"F3"
-			(* pw).action_buttonF3();
+			(*pw).action_buttonF3();
 			break;
 
 		case	61:	//"F4"
-			(* pw).action_buttonF4();
+			(*pw).action_buttonF4();
 			break;
 
 		case	62:	//"F5"
-			(* pw).action_buttonF5();
+			(*pw).action_buttonF5();
 			break;
 
 		case	79:	//"Right point"
-			(* pw).action_button_rigth_point();
+			(*pw).action_button_rigth_point();
 			break;
 
 		case	80:	//"Left point"
-			(* pw).action_button_left_point();
+			(*pw).action_button_left_point();
 			break;
 
 		default:
-			(* pw).set_word(cp1251_en_to_ru[keyboard.getKey()]);
+			(*pw).set_word(cp1251_en_to_ru[keyboard.getKey()]);
 			break;
 		}
 
@@ -283,20 +282,20 @@ void change_wind()
 
 			break;
 			/*
-		case id_wind_error_verif_data_mngr:
+			case id_wind_error_verif_data_mngr:
 			Serial.println("Go to mess of the end");
 			if (false)
 			{
-				(*pw).set_back_handler(handler_num);
+			(*pw).set_back_handler(handler_num);
 			}
 
 			char _str_error_verif_data_mngr[] = { 208, 229, 231, 243, 235, 252, 242,
-				224, 242, 32, 241, 238, 245, 240, 224,
-				237, 229, 237, 0 };//Результат сохранен
+			224, 242, 32, 241, 238, 245, 240, 224,
+			237, 229, 237, 0 };//Результат сохранен
 			(*pw).push_message(_str_error_verif_data_mngr);
 			break;*/
 		default:
-			Serial.println("Ooops!"); 
+			Serial.println("Ooops!");
 			break;
 		}
 		(*pw).init();
@@ -306,70 +305,32 @@ void change_wind()
 
 void refresh_timer()
 {
-	TMR1.start();
-	TMR2.stop();
 	Jstick.task_enable = true;
-	/*
-	Serial.print("X ");
-	Serial.println(Jstick.get_x());
-	Serial.print("Y ");
-	Serial.println(Jstick.get_y());
-	Serial.print("B ");
-	Serial.println(Jstick.get_b());*/
+	Motor.run(Jstick.get_x());
 	(*pw).refresh();
 	(*pw).refresh_timer();
 }
 
-volatile boolean l;
-
-void TC0_Handler()
-{
-	long dummy = REG_TC0_SR0; // vital - reading this clears some flag
-	static int dl = 0;
-	Jstick.Task();// otherwise you get infinite interrupts
-	//l = !l;
-	Jstick.time = millis() - dl;
-	dl = millis();
-}
 void setup()
 {
 
 	Serial.begin(9600);
 	Motor.init();
 	Jstick.init();
-	//adc_init(ADC, SystemCoreClock, ADC_FREQ_MAX *2, 4); //
+
 	VGA.begin(320, 240, VGA_COLOUR);
 
 	TMR1.event(refresh_timer);
 	TMR1.start();
-	TMR2.event(refresh_timer);
-	TMR2.start();
 	tft.begin();
 	pw = new Win_Data_Handler(&Temp_D, Data_Mngr);//This window is first
 	(*pw).init();
-
-	pinMode(13, OUTPUT);
-	pinMode(2, OUTPUT);    // port B pin 25  
-	analogWrite(2, 255);   // sets up some other registers I haven't worked out yet
-	REG_PIOB_PDR = 1 << 25; // disable PIO, enable peripheral
-	REG_PIOB_ABSR = 1 << 25; // select peripheral B
-	REG_TC0_WPMR = 0x54494D00; // enable write to registers
-	REG_TC0_CMR0 = 0b00000000000010011100010000000000; // set channel mode register (see datasheet)
-	REG_TC0_RC0 = 100000000; // counter period
-	REG_TC0_RA0 = 30000000;  // PWM value
-	REG_TC0_IER0 = 0b00010000; // enable interrupt on counter=rc
-	REG_TC0_IDR0 = 0b11101111; // disable other interrupts
-
-	NVIC_EnableIRQ(TC0_IRQn); // enable TC0 interrupts
 }
 
 void loop()
 {
-	//Jstick.Task();
-	//(*pw).refresh();
-	TMR1.tick();
-	TMR2.tick();
+	Jstick.Task();
+	TMR1.tick();//Update one in 20ms
 	// Process USB tasks
-	usb.Task();
-	digitalWrite(13, l);
+	usb.Task();//This point we have delay 10ms for  USB transfer timeout
 }
